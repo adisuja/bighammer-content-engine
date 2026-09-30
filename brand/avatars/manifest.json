@@ -1,0 +1,278 @@
+{
+ "richard": {
+  "headshot": {
+   "file": ".private/avatars/richard/headshot.png",
+   "aspect": "1:1",
+   "prompt": "Photorealistic professional photograph of the exact same real person shown in the reference photos (a bald man in his late fifties with fair skin, a narrow long face, deep-set eyes, a long straight nose, a high forehead, thin lips, visible forehead and eye wrinkles, a faint grey shadow of shaved hair at the sides, wearing a light blue business shirt). IDENTITY LOCK: reproduce his real face exactly as in the references: same face shape and width, same nose length and shape, same eye spacing and depth, same ears, same age and wrinkles. Do not beautify, do not make him younger, do not widen the jaw or smooth the skin. Natural skin texture, sharp focus on the eyes, shot on a full-frame camera, 85mm lens. Head and shoulders LinkedIn profile headshot, looking straight at the camera with a warm, confident closed-mouth smile, soft studio light, plain light grey backdrop.",
+   "kie_task": "f2c33a8302bd898c6ae2a8bb95b6eebd",
+   "credits": 18.0,
+   "refs": [
+    "0096.jpg",
+    "0118.jpg",
+    "0129.jpg",
+    "0207.jpg",
+    "0212.jpg",
+    "9937.jpg"
+   ],
+   "created": "2026-10-01"
+  },
+  "portrait": {
+   "file": ".private/avatars/richard/portrait.png",
+   "aspect": "4:5",
+   "prompt": "Photorealistic professional photograph of the exact same real person shown in the reference photos (a bald man in his late fifties with fair skin, a narrow long face, deep-set eyes, a long straight nose, a high forehead, thin lips, visible forehead and eye wrinkles, a faint grey shadow of shaved hair at the sides, wearing a light blue business shirt). IDENTITY LOCK: reproduce his real face exactly as in the references: same face shape and width, same nose length and shape, same eye spacing and depth, same ears, same age and wrinkles. Do not beautify, do not make him younger, do not widen the jaw or smooth the skin. Natural skin texture, sharp focus on the eyes, shot on a full-frame camera, 85mm lens. Editorial waist-up portrait, arms loosely crossed, slight smile, standing in front of a plain warm grey studio wall, soft window light from the left, calm and credible.",
+   "kie_task": "05f5353a45c9ba7371b1fd435243e1b2",
+   "credits": 18.0,
+   "refs": [
+    "0096.jpg",
+    "0118.jpg",
+    "0129.jpg",
+    "0207.jpg",
+    "0212.jpg",
+    "9937.jpg"
+   ],
+   "created": "2026-10-01"
+  },
+  "thoughtful": {
+   "file": ".private/avatars/richard/thoughtful.png",
+   "aspect": "4:5",
+   "prompt": "Photorealistic professional photograph of the exact same real person shown in the reference photos (a bald man in his late fifties with fair skin, a narrow long face, deep-set eyes, a long straight nose, a high forehead, thin lips, visible forehead and eye wrinkles, a faint grey shadow of shaved hair at the sides, wearing a light blue business shirt). IDENTITY LOCK: reproduce his real face exactly as in the references: same face shape and width, same nose length and shape, same eye spacing and depth, same ears, same age and wrinkles. Do not beautify, do not make him younger, do not widen the jaw or smooth the skin. Natural skin texture, sharp focus on the eyes, shot on a full-frame camera, 85mm lens. Waist-up, one hand resting on his chin, thoughtful expression looking slightly off camera, plain light grey studio backdrop, soft light.",
+   "kie_task": "bd0f32adb3c058e69d598dfc6965219e",
+   "credits": 18.0,
+   "refs": [
+    "0096.jpg",
+    "0118.jpg",
+    "0129.jpg",
+    "0207.jpg",
+    "0212.jpg",
+    "9937.jpg"
+   ],
+   "created": "2026-10-01"
+  },
+  "presenting": {
+   "file": ".private/avatars/richard/presenting.png",
+   "aspect": "4:5",
+   "prompt": "Photorealistic professional photograph of the exact same real person shown in the reference photos (a bald man in his late fifties with fair skin, a narrow long face, deep-set eyes, a long straight nose, a high forehead, thin lips, visible forehead and eye wrinkles, a faint grey shadow of shaved hair at the sides, wearing a light blue business shirt). IDENTITY LOCK: reproduce his real face exactly as in the references: same face shape and width, same nose length and shape, same eye spacing and depth, same ears, same age and wrinkles. Do not beautify, do not make him younger, do not widen the jaw or smooth the skin. Natural skin texture, sharp focus on the eyes, shot on a full-frame camera, 85mm lens. Waist-up, gesturing with an open palm as if explaining an idea to a small audience, engaged friendly expression, plain light grey studio backdrop.",
+   "kie_task": "ef11103730a3300e279ea536842dd604",
+   "credits": 18.0,
+   "refs": [
+    "0096.jpg",
+    "0118.jpg",
+    "0129.jpg",
+    "0207.jpg",
+    "0212.jpg",
+    "9937.jpg"
+   ],
+   "created": "2026-10-01"
+  },
+  "laptop": {
+   "file": ".private/avatars/richard/laptop.png",
+   "aspect": "4:5",
+   "prompt": "Photorealistic professional photograph of the exact same real person shown in the reference photos (a bald man in his late fifties with fair skin, a narrow long face, deep-set eyes, a long straight nose, a high forehead, thin lips, visible forehead and eye wrinkles, a faint grey shadow of shaved hair at the sides, wearing a light blue business shirt). IDENTITY LOCK: reproduce his real face exactly as in the references: same face shape and width, same nose length and shape, same eye spacing and depth, same ears, same age and wrinkles. Do not beautify, do not make him younger, do not widen the jaw or smooth the skin. Natural skin texture, sharp focus on the eyes, shot on a full-frame camera, 85mm lens. Sitting at a clean modern office desk with a laptop, looking up at the camera mid-conversation with a relaxed smile, bright contemporary office with soft daylight, shallow depth of field.",
+   "kie_task": "497e645644e258bf175c38d5e7649184",
+   "credits": 18.0,
+   "refs": [
+    "0096.jpg",
+    "0118.jpg",
+    "0129.jpg",
+    "0207.jpg",
+    "0212.jpg",
+    "9937.jpg"
+   ],
+   "created": "2026-10-01"
+  },
+  "office": {
+   "file": ".private/avatars/richard/office.png",
+   "aspect": "4:5",
+   "prompt": "Photorealistic professional photograph of the exact same real person shown in the reference photos (a bald man in his late fifties with fair skin, a narrow long face, deep-set eyes, a long straight nose, a high forehead, thin lips, visible forehead and eye wrinkles, a faint grey shadow of shaved hair at the sides, wearing a light blue business shirt). IDENTITY LOCK: reproduce his real face exactly as in the references: same face shape and width, same nose length and shape, same eye spacing and depth, same ears, same age and wrinkles. Do not beautify, do not make him younger, do not widen the jaw or smooth the skin. Natural skin texture, sharp focus on the eyes, shot on a full-frame camera, 85mm lens. Standing in a bright modern open-plan office with large windows, holding a coffee mug, natural candid smile towards the camera, soft background blur, lifestyle editorial photo.",
+   "kie_task": "8c66098f85ec2b19a7fad2bd4c3bc8e4",
+   "credits": 18.0,
+   "refs": [
+    "0096.jpg",
+    "0118.jpg",
+    "0129.jpg",
+    "0207.jpg",
+    "0212.jpg",
+    "9937.jpg"
+   ],
+   "created": "2026-10-01"
+  },
+  "speaking": {
+   "file": ".private/avatars/richard/speaking.png",
+   "aspect": "4:5",
+   "prompt": "Photorealistic professional photograph of the exact same real person shown in the reference photos (a bald man in his late fifties with fair skin, a narrow long face, deep-set eyes, a long straight nose, a high forehead, thin lips, visible forehead and eye wrinkles, a faint grey shadow of shaved hair at the sides, wearing a light blue business shirt). IDENTITY LOCK: reproduce his real face exactly as in the references: same face shape and width, same nose length and shape, same eye spacing and depth, same ears, same age and wrinkles. Do not beautify, do not make him younger, do not widen the jaw or smooth the skin. Natural skin texture, sharp focus on the eyes, shot on a full-frame camera, 85mm lens. Speaking at a small industry meetup, holding a microphone, mid-sentence, warm stage light, blurred audience silhouettes in the background, candid event photography.",
+   "kie_task": "270fc6c7effe426767dd419920125c83",
+   "credits": 18.0,
+   "refs": [
+    "0096.jpg",
+    "0118.jpg",
+    "0129.jpg",
+    "0207.jpg",
+    "0212.jpg",
+    "9937.jpg"
+   ],
+   "created": "2026-10-01"
+  },
+  "cutout": {
+   "file": ".private/avatars/richard/cutout.png",
+   "aspect": "4:5",
+   "prompt": "Photorealistic professional photograph of the exact same real person shown in the reference photos (a bald man in his late fifties with fair skin, a narrow long face, deep-set eyes, a long straight nose, a high forehead, thin lips, visible forehead and eye wrinkles, a faint grey shadow of shaved hair at the sides, wearing a light blue business shirt). IDENTITY LOCK: reproduce his real face exactly as in the references: same face shape and width, same nose length and shape, same eye spacing and depth, same ears, same age and wrinkles. Do not beautify, do not make him younger, do not widen the jaw or smooth the skin. Natural skin texture, sharp focus on the eyes, shot on a full-frame camera, 85mm lens. Half-body, facing the camera, neutral friendly expression, arms relaxed, evenly lit on a perfectly plain flat white background with no shadows, suitable for cutting out.",
+   "kie_task": "88853af25aee340032cb82b1c89dceeb",
+   "credits": 18.0,
+   "refs": [
+    "0096.jpg",
+    "0118.jpg",
+    "0129.jpg",
+    "0207.jpg",
+    "0212.jpg",
+    "9937.jpg"
+   ],
+   "created": "2026-10-01"
+  },
+  "wide": {
+   "file": ".private/avatars/richard/wide.png",
+   "aspect": "4:5",
+   "prompt": "Photorealistic professional photograph of the exact same real person shown in the reference photos (a bald man in his late fifties with fair skin, a narrow long face, deep-set eyes, a long straight nose, a high forehead, thin lips, visible forehead and eye wrinkles, a faint grey shadow of shaved hair at the sides, wearing a light blue business shirt). IDENTITY LOCK: reproduce his real face exactly as in the references: same face shape and width, same nose length and shape, same eye spacing and depth, same ears, same age and wrinkles. Do not beautify, do not make him younger, do not widen the jaw or smooth the skin. Natural skin texture, sharp focus on the eyes, shot on a full-frame camera, 85mm lens. Wide lifestyle photo, full body, standing relaxed and leaning on a railing of a bright modern office atrium, looking slightly off camera with a calm smile. He is small in the frame, occupying only the lower 40% of the image; the upper 55% of the frame is open, softly blurred bright architecture and daylight, leaving clean empty space above him. Natural light, editorial photography.",
+   "kie_task": "9851c18185bf04f8e71dadbb3b0b16b2",
+   "credits": 18.0,
+   "refs": [
+    "0096.jpg",
+    "0118.jpg",
+    "0129.jpg",
+    "0207.jpg",
+    "0212.jpg",
+    "9937.jpg"
+   ],
+   "created": "2026-10-01"
+  }
+ },
+ "terry": {
+  "headshot": {
+   "file": ".private/avatars/terry/headshot.png",
+   "aspect": "1:1",
+   "prompt": "Photorealistic professional photograph of the exact same real person shown in the reference photos (a man in his late forties with medium-brown skin, thick dark-grey hair swept back, strong dark eyebrows, a full salt-and-pepper beard that is grey at the chin, a broad face and warm dark eyes, wearing a light blue business shirt). IDENTITY LOCK: reproduce his real face exactly as in the references: same face shape and width, same nose length and shape, same eye spacing and depth, same ears, same age and wrinkles. Do not beautify, do not make him younger, do not widen the jaw or smooth the skin. Natural skin texture, sharp focus on the eyes, shot on a full-frame camera, 85mm lens. Head and shoulders LinkedIn profile headshot, looking straight at the camera with a warm, confident closed-mouth smile, soft studio light, plain light grey backdrop.",
+   "kie_task": "242e44b1bf33ef2fa34882c5ca7188d0",
+   "credits": 18.0,
+   "refs": [
+    "0019.jpg",
+    "0032.jpg",
+    "0050.jpg",
+    "0056.jpg",
+    "0247.jpg",
+    "9968.jpg"
+   ],
+   "created": "2026-10-01"
+  },
+  "portrait": {
+   "file": ".private/avatars/terry/portrait.png",
+   "aspect": "4:5",
+   "prompt": "Photorealistic professional photograph of the exact same real person shown in the reference photos (a man in his late forties with medium-brown skin, thick dark-grey hair swept back, strong dark eyebrows, a full salt-and-pepper beard that is grey at the chin, a broad face and warm dark eyes, wearing a light blue business shirt). IDENTITY LOCK: reproduce his real face exactly as in the references: same face shape and width, same nose length and shape, same eye spacing and depth, same ears, same age and wrinkles. Do not beautify, do not make him younger, do not widen the jaw or smooth the skin. Natural skin texture, sharp focus on the eyes, shot on a full-frame camera, 85mm lens. Editorial waist-up portrait, arms loosely crossed, slight smile, standing in front of a plain warm grey studio wall, soft window light from the left, calm and credible.",
+   "kie_task": "82e9ea23a5d08a58f7cd98412fa144aa",
+   "credits": 18.0,
+   "refs": [
+    "0019.jpg",
+    "0032.jpg",
+    "0050.jpg",
+    "0056.jpg",
+    "0247.jpg",
+    "9968.jpg"
+   ],
+   "created": "2026-10-01"
+  },
+  "thoughtful": {
+   "file": ".private/avatars/terry/thoughtful.png",
+   "aspect": "4:5",
+   "prompt": "Photorealistic professional photograph of the exact same real person shown in the reference photos (a man in his late forties with medium-brown skin, thick dark-grey hair swept back, strong dark eyebrows, a full salt-and-pepper beard that is grey at the chin, a broad face and warm dark eyes, wearing a light blue business shirt). IDENTITY LOCK: reproduce his real face exactly as in the references: same face shape and width, same nose length and shape, same eye spacing and depth, same ears, same age and wrinkles. Do not beautify, do not make him younger, do not widen the jaw or smooth the skin. Natural skin texture, sharp focus on the eyes, shot on a full-frame camera, 85mm lens. Waist-up, one hand resting on his chin, thoughtful expression looking slightly off camera, plain light grey studio backdrop, soft light.",
+   "kie_task": "ae4dc8208943c0f270112c5a44939bf4",
+   "credits": 18.0,
+   "refs": [
+    "0019.jpg",
+    "0032.jpg",
+    "0050.jpg",
+    "0056.jpg",
+    "0247.jpg",
+    "9968.jpg"
+   ],
+   "created": "2026-10-01"
+  },
+  "presenting": {
+   "file": ".private/avatars/terry/presenting.png",
+   "aspect": "4:5",
+   "prompt": "Photorealistic professional photograph of the exact same real person shown in the reference photos (a man in his late forties with medium-brown skin, thick dark-grey hair swept back, strong dark eyebrows, a full salt-and-pepper beard that is grey at the chin, a broad face and warm dark eyes, wearing a light blue business shirt). IDENTITY LOCK: reproduce his real face exactly as in the references: same face shape and width, same nose length and shape, same eye spacing and depth, same ears, same age and wrinkles. Do not beautify, do not make him younger, do not widen the jaw or smooth the skin. Natural skin texture, sharp focus on the eyes, shot on a full-frame camera, 85mm lens. Waist-up, gesturing with an open palm as if explaining an idea to a small audience, engaged friendly expression, plain light grey studio backdrop.",
+   "kie_task": "48bf3980ffbe374afeda29d2d8d41224",
+   "credits": 18.0,
+   "refs": [
+    "0019.jpg",
+    "0032.jpg",
+    "0050.jpg",
+    "0056.jpg",
+    "0247.jpg",
+    "9968.jpg"
+   ],
+   "created": "2026-10-01"
+  },
+  "laptop": {
+   "file": ".private/avatars/terry/laptop.png",
+   "aspect": "4:5",
+   "prompt": "Photorealistic professional photograph of the exact same real person shown in the reference photos (a man in his late forties with medium-brown skin, thick dark-grey hair swept back, strong dark eyebrows, a full salt-and-pepper beard that is grey at the chin, a broad face and warm dark eyes, wearing a light blue business shirt). IDENTITY LOCK: reproduce his real face exactly as in the references: same face shape and width, same nose length and shape, same eye spacing and depth, same ears, same age and wrinkles. Do not beautify, do not make him younger, do not widen the jaw or smooth the skin. Natural skin texture, sharp focus on the eyes, shot on a full-frame camera, 85mm lens. Sitting at a clean modern office desk with a laptop, looking up at the camera mid-conversation with a relaxed smile, bright contemporary office with soft daylight, shallow depth of field.",
+   "kie_task": "a6b11dd91287659445cb795f59d02e22",
+   "credits": 18.0,
+   "refs": [
+    "0019.jpg",
+    "0032.jpg",
+    "0050.jpg",
+    "0056.jpg",
+    "0247.jpg",
+    "9968.jpg"
+   ],
+   "created": "2026-10-01"
+  },
+  "office": {
+   "file": ".private/avatars/terry/office.png",
+   "aspect": "4:5",
+   "prompt": "Photorealistic professional photograph of the exact same real person shown in the reference photos (a man in his late forties with medium-brown skin, thick dark-grey hair swept back, strong dark eyebrows, a full salt-and-pepper beard that is grey at the chin, a broad face and warm dark eyes, wearing a light blue business shirt). IDENTITY LOCK: reproduce his real face exactly as in the references: same face shape and width, same nose length and shape, same eye spacing and depth, same ears, same age and wrinkles. Do not beautify, do not make him younger, do not widen the jaw or smooth the skin. Natural skin texture, sharp focus on the eyes, shot on a full-frame camera, 85mm lens. Standing in a bright modern open-plan office with large windows, holding a coffee mug, natural candid smile towards the camera, soft background blur, lifestyle editorial photo.",
+   "kie_task": "ca6bc292d34632f5938925d42dfb888b",
+   "credits": 18.0,
+   "refs": [
+    "0019.jpg",
+    "0032.jpg",
+    "0050.jpg",
+    "0056.jpg",
+    "0247.jpg",
+    "9968.jpg"
+   ],
+   "created": "2026-10-01"
+  },
+  "speaking": {
+   "file": ".private/avatars/terry/speaking.png",
+   "aspect": "4:5",
+   "prompt": "Photorealistic professional photograph of the exact same real person shown in the reference photos (a man in his late forties with medium-brown skin, thick dark-grey hair swept back, strong dark eyebrows, a full salt-and-pepper beard that is grey at the chin, a broad face and warm dark eyes, wearing a light blue business shirt). IDENTITY LOCK: reproduce his real face exactly as in the references: same face shape and width, same nose length and shape, same eye spacing and depth, same ears, same age and wrinkles. Do not beautify, do not make him younger, do not widen the jaw or smooth the skin. Natural skin texture, sharp focus on the eyes, shot on a full-frame camera, 85mm lens. Speaking at a small industry meetup, holding a microphone, mid-sentence, warm stage light, blurred audience silhouettes in the background, candid event photography.",
+   "kie_task": "30bfc6ea996b501ec432736853b34196",
+   "credits": 18.0,
+   "refs": [
+    "0019.jpg",
+    "0032.jpg",
+    "0050.jpg",
+    "0056.jpg",
+    "0247.jpg",
+    "9968.jpg"
+   ],
+   "created": "2026-10-01"
+  },
+  "cutout": {
+   "file": ".private/avatars/terry/cutout.png",
+   "aspect": "4:5",
+   "prompt": "Photorealistic professional photograph of the exact same real person shown in the reference photos (a man in his late forties with medium-brown skin, thick dark-grey hair swept back, strong dark eyebrows, a full salt-and-pepper beard that is grey at the chin, a broad face and warm dark eyes, wearing a light blue business shirt). IDENTITY LOCK: reproduce his real face exactly as in the references: same face shape and width, same nose length and shape, same eye spacing and depth, same ears, same age and wrinkles. Do not beautify, do not make him younger, do not widen the jaw or smooth the skin. Natural skin texture, sharp focus on the eyes, shot on a full-frame camera, 85mm lens. Half-body, facing the camera, neutral friendly expression, arms relaxed, evenly lit on a perfectly plain flat white background with no shadows, suitable for cutting out.",
+   "kie_task": "a7a820d6224167e03897b645c204fe72",
+   "credits": 18.0,
+   "refs": [
+    "0019.jpg",
+    "0032.jpg",
+    "0050.jpg",
+    "0056.jpg",
+    "0247.jpg",
+    "9968.jpg"
+   ],
+   "created": "2026-10-01"
+  }
+ }
+}

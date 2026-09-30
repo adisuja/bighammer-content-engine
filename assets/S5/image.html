@@ -1,0 +1,80 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../pipeline/brand.css"><link rel="stylesheet" href="../../pipeline/dark.css">
+<style>
+.wrap{position:relative;height:1350px;padding:46px 48px 0}
+.logo{top:48px;right:48px}
+h1{text-align:center;margin-top:84px;font-size:58px!important}
+h1 i{font-style:normal;font-weight:400;font-family:var(--body);font-size:.8em;color:var(--txt2)}
+.sub{text-align:center;margin-top:10px;font-size:25px}
+.formula{margin:26px auto 0;width:max-content;padding:12px 22px;border-radius:14px;border:1px dashed rgba(0,255,137,.45);background:rgba(0,255,137,.06);font-family:var(--mono);font-size:19px;color:var(--txt)}
+.formula b{color:var(--c-green)}
+.tbl{position:relative;margin-top:30px;display:grid;grid-template-columns:200px 1fr 1fr 1fr;gap:0 10px}
+.tbl::before{content:"";position:absolute;inset:44px -12px -12px;border-radius:22px;background:rgba(255,255,255,.035);border:1px solid var(--edge)}
+.hd{position:relative;margin-top:44px;border-radius:14px 14px 0 0;padding:26px 12px 14px;text-align:center;font-family:var(--display);font-weight:700;font-size:23px;color:#fff}
+.hd .ic{position:absolute;left:50%;top:-30px;transform:translateX(-50%);width:54px;height:54px;border-radius:12px;background:#fff;display:grid;place-items:center}
+.hd .ic svg{width:28px;height:28px}
+.hd small{display:block;font-family:var(--body);font-weight:500;font-size:14px;opacity:.85;margin-top:2px}
+.c1{background:linear-gradient(180deg,#3a3a4a,#2a2a36)}.c2{background:linear-gradient(180deg,#5600EF,#3D00AD)}.c3{background:linear-gradient(180deg,#B8005A,#8A0046)}
+.f{position:relative;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 10px;height:92px;margin-top:10px;border-radius:12px;background:rgba(255,255,255,.05);font-family:var(--display);font-weight:700;font-size:19px;color:var(--c-lav)}
+.v{position:relative;height:92px;margin-top:10px;padding:14px 16px;background:rgba(255,255,255,.04);font-size:16px;line-height:1.35;color:var(--txt2)}
+.v b{display:block;font-family:var(--display);font-weight:800;font-size:25px;color:var(--txt);margin-bottom:2px}
+.v.col2{background:rgba(86,0,239,.14)}.v.col3{background:rgba(254,0,121,.10)}
+.v.last{border-radius:0 0 12px 12px}
+.foot{text-transform:none!important;letter-spacing:0!important;font-family:var(--body)!important;position:absolute;left:48px;right:48px;bottom:32px;display:flex;align-items:center;justify-content:space-between;border-radius:999px;border:1px solid var(--edge);background:rgba(255,255,255,.05);padding:10px 30px 10px 10px}
+.foot .who{display:flex;align-items:center;gap:14px;font-size:20px;color:var(--txt);font-family:var(--alt)}
+.foot .av{width:54px;height:54px;border-radius:50%;background:#e9e9ee url(../../brand/assets/photos/srinath-face.jpg) center/cover no-repeat}
+.foot span.src{font-size:14px;color:var(--txt3)}
+.ex{margin-top:34px;border-radius:18px;border:1px solid var(--edge);background:rgba(255,255,255,.035);padding:18px 22px}
+.exh{display:flex;align-items:baseline;gap:16px;margin-bottom:12px}
+.exh b{font-family:var(--mono);font-size:15px;letter-spacing:.14em;color:var(--c-green)}
+.exh span{font-size:17px;color:var(--txt2)}
+.bar{display:grid;grid-template-columns:130px 1fr 230px;align-items:center;gap:14px;margin-top:10px}
+.bl{font-family:var(--alt);font-weight:700;font-size:17px;color:var(--txt)}
+.tr{position:relative;height:24px;border-radius:6px;background:rgba(255,255,255,.06)}
+.tr i{display:block;height:100%;border-radius:6px}
+.tr em{position:absolute;top:-6px;bottom:-6px;width:2px;background:#fff}
+.bv{font-size:17px;color:var(--txt2)}.bv b{color:var(--txt);font-family:var(--display)}
+.exn{margin-top:12px;font-size:16px;color:var(--txt2);font-style:italic}
+.f,.v{height:84px!important}
+.foot .cut{position:absolute;left:24px;bottom:0;width:120px;height:128px;background:url(../../brand/assets/photos/srinath-ceo.png) center bottom/cover no-repeat;filter:grayscale(1) contrast(1.05)}
+.foot{height:78px}
+.v b{font-size:23px!important}
+</style></head>
+<body class="night" data-h="1350"><div class="wrap">
+  <div class="logo"><img src="../../brand/assets/bighammer-logo.svg"></div>
+  <h1>Snowflake Gen1 <i>vs</i> Gen2</h1>
+  <p class="sub">A faster warehouse at a higher rate. <b>Cheaper, or not?</b></p>
+  <div class="formula">cost = <b>credits per hour</b> × <b>hours the warehouse runs</b></div>
+
+  <div class="tbl">
+    <div></div>
+    <div class="hd c1"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="2"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/></svg></span>Gen1<small>today's default</small></div>
+    <div class="hd c2"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#5600EF" stroke-width="2"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></span>Gen2<small>on AWS / GCP</small></div>
+    <div class="hd c3"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#E0006B" stroke-width="2"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></span>Gen2<small>on Azure</small></div>
+
+    <div class="f">Credits / hour<br>(Medium)</div>
+    <div class="v"><b>4</b>the baseline</div><div class="v col2"><b>5.4</b>1.35x the Gen1 rate</div><div class="v col3"><b>5</b>1.25x the Gen1 rate</div>
+
+    <div class="f">Break-even</div>
+    <div class="v"><b>n/a</b>nothing to beat</div><div class="v col2"><b>26% less runtime</b>or it costs more</div><div class="v col3"><b>20% less runtime</b>or it costs more</div>
+
+    <div class="f">Minimum billed</div>
+    <div class="v"><b>60 sec</b>every time it resumes</div><div class="v col2"><b>60 sec</b>every time it resumes</div><div class="v col3"><b>60 sec</b>every time it resumes</div>
+
+    <div class="f">Default today</div>
+    <div class="v"><b>Yes</b>for new warehouses</div><div class="v col2"><b>Opt in</b>not in every region</div><div class="v col3"><b>Opt in</b>not in every region</div>
+
+    <div class="f">Check it with</div>
+    <div class="v last" style="grid-column:2/-1;background:rgba(0,255,137,.06);display:flex;align-items:center;gap:16px"><b style="font-size:19px;font-family:var(--mono);color:var(--c-green);margin:0">WAREHOUSE_METERING_HISTORY + QUERY_HISTORY</b><span>same queries, both generations, one week each</span></div>
+  </div>
+
+  <div class="ex">
+    <div class="exh"><b>WORKED EXAMPLE</b><span>A job that takes 60 minutes on a Medium Gen1 warehouse</span></div>
+    <div class="bar"><span class="bl">Gen1</span><div class="tr"><i style="width:100%;background:#5a5a6e"></i></div><span class="bv"><b>60 min</b> = 4 credits</span></div>
+    <div class="bar"><span class="bl">Gen2 AWS</span><div class="tr"><i style="width:74%;background:#5600EF"></i><em style="left:74%"></em></div><span class="bv">must finish in <b>44 min</b></span></div>
+    <div class="bar"><span class="bl">Gen2 Azure</span><div class="tr"><i style="width:80%;background:#E0006B"></i><em style="left:80%"></em></div><span class="bv">must finish in <b>48 min</b></span></div>
+    <p class="exn">Slower than that, and the faster warehouse is the more expensive one.</p>
+  </div>
+
+  <div class="foot"><div class="who"><span class="cut"></span><b style="margin-left:128px">Srinath Reddy - Founder &amp; CEO</b></div><span class="src">Source: Snowflake credit consumption table, Sep 2026</span></div>
+</div></body></html>
