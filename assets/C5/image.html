@@ -1,0 +1,95 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../pipeline/brand.css"><link rel="stylesheet" href="../../pipeline/dark.css"><link rel="stylesheet" href="../../pipeline/light.css">
+<style>
+.wrap{position:relative;height:1350px;padding:40px 52px 0}
+.logo{top:44px;right:52px}
+.tagl{display:inline-block;padding:11px 22px;border-radius:999px;font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.16em}
+h1{text-align:center;margin-top:18px;font-size:50px!important;line-height:1.03!important}
+.sub{text-align:center;margin-top:10px;font-size:22px!important}
+svg.venn{display:block;margin:6px auto 0}
+.arc{font-family:Axiforma,sans-serif;font-weight:800;font-size:34px;letter-spacing:.06em;text-transform:uppercase}
+.arc.sm{font-size:29px;letter-spacing:.03em}
+.bl{font-family:Poppins,sans-serif;font-size:16px;fill:#141414}
+.lens-t{font-family:Axiforma,sans-serif;font-weight:800;font-size:17px;fill:#141414}
+.lens-s{font-family:Poppins,sans-serif;font-size:15px;fill:#2a2a36}
+.core-k{font-family:"Geist Mono",monospace;font-weight:700;font-size:12.5px;letter-spacing:.14em;fill:#00FF89}
+.core-t{font-family:Axiforma,sans-serif;font-weight:800;font-size:22px;fill:#fff}
+.core-s{font-family:Poppins,sans-serif;font-size:14.5px;fill:rgba(255,255,255,.82)}
+.rules{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:8px;position:relative}
+.rules::before{content:"";position:absolute;left:12%;right:12%;top:30px;border-top:2px dashed rgba(86,0,239,.3)}
+.rule{position:relative;background:#fff;border:1.5px solid rgba(20,20,20,.1);border-radius:16px;padding:14px 16px;box-shadow:0 10px 26px -20px rgba(61,0,173,.4)}
+.rule .n{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#141414;color:#fff;font-family:var(--alt);font-weight:700;font-size:15px}
+.rule b{display:block;margin-top:8px;font-family:var(--alt);font-weight:700;font-size:18px;line-height:1.2}
+.rule span{display:block;margin-top:5px;font-size:15px;line-height:1.35;color:var(--txt2)}
+.close{position:absolute;left:52px;right:52px;bottom:30px;display:flex;align-items:center;justify-content:space-between;border-radius:999px;background:#141414;color:#fff;padding:12px 14px 12px 28px;font-size:19px}
+.close b{font-weight:600}
+.close span{padding:8px 18px;border-radius:999px;background:#fff;color:#141414;font-family:var(--alt);font-weight:700;font-size:17px}
+h1{margin-top:84px!important}svg.venn{margin-top:14px!important}.rules{margin-top:18px!important}
+</style></head>
+<body class="day" data-h="1350"><div class="wrap">
+  <div class="logo"><img src="../../brand/assets/bighammer-logo-dark.svg"></div>
+  <h1>Three kinds of people<br>do data engineering.<br><span style="color:var(--violet)">Only one has it in their title.</span></h1>
+  <p class="sub">Same foundation underneath. Very different days on top.</p>
+
+  <svg class="venn" width="976" height="740" viewBox="0 0 976 740">
+    <defs>
+      <clipPath id="cV"><circle cx="488" cy="248" r="250"/></clipPath>
+      <clipPath id="cM"><circle cx="322" cy="482" r="250"/></clipPath>
+      <path id="aV" d="M 300 180 A 200 200 0 0 1 676 180"/>
+      <path id="aM" d="M 144 585 A 205 205 0 0 0 375 680"/>
+      <path id="aG" d="M 601 680 A 205 205 0 0 0 832 585"/>
+    </defs>
+    <circle cx="488" cy="248" r="250" fill="#8B5CFF" fill-opacity=".30"/>
+    <circle cx="322" cy="482" r="250" fill="#FE0079" fill-opacity=".22"/>
+    <circle cx="654" cy="482" r="250" fill="#00C46E" fill-opacity=".24"/>
+    <g clip-path="url(#cV)"><circle cx="322" cy="482" r="250" fill="#fff" fill-opacity=".62"/></g>
+    <g clip-path="url(#cV)"><circle cx="654" cy="482" r="250" fill="#fff" fill-opacity=".62"/></g>
+    <g clip-path="url(#cM)"><circle cx="654" cy="482" r="250" fill="#fff" fill-opacity=".62"/></g>
+    <g clip-path="url(#cV)"><g clip-path="url(#cM)"><circle cx="654" cy="482" r="250" fill="#141414"/></g></g>
+    <circle cx="488" cy="248" r="250" fill="none" stroke="#5600EF" stroke-opacity=".5" stroke-width="2"/>
+    <circle cx="322" cy="482" r="250" fill="none" stroke="#FE0079" stroke-opacity=".45" stroke-width="2"/>
+    <circle cx="654" cy="482" r="250" fill="none" stroke="#00A85A" stroke-opacity=".5" stroke-width="2"/>
+
+    <text class="arc" fill="#5600EF"><textPath href="#aV" startOffset="50%" text-anchor="middle">Data engineers</textPath></text>
+    <text class="arc sm" fill="#E0006B"><textPath href="#aM" startOffset="50%" text-anchor="middle">The analyst</textPath></text>
+    <text class="arc sm" fill="#008F4C"><textPath href="#aG" startOffset="50%" text-anchor="middle">Product team</textPath></text>
+
+    <g text-anchor="middle">
+      <text class="bl" x="488" y="122">Carry a backlog from every team</text>
+      <text class="bl" x="488" y="150">Own what reaches production</text>
+      <text class="bl" x="488" y="178">Want the design work back</text>
+    </g>
+    <g text-anchor="start">
+      <text class="bl" x="104" y="428">Joins sources first</text>
+      <text class="bl" x="104" y="456">Explains why two</text>
+      <text class="bl" x="104" y="478">numbers differ</text>
+      <text class="bl" x="104" y="506">Never signed up</text>
+      <text class="bl" x="104" y="528">for any of it</text>
+    </g>
+    <g text-anchor="end">
+      <text class="bl" x="872" y="428">Needs plumbing</text>
+      <text class="bl" x="872" y="450">under the app</text>
+      <text class="bl" x="872" y="478">Builds it once,</text>
+      <text class="bl" x="872" y="500">maintains it</text>
+      <text class="bl" x="872" y="522">forever</text>
+    </g>
+
+    <g text-anchor="middle">
+      <text class="lens-t" x="350" y="316">Sources</text><text class="lens-t" x="350" y="336">disagree</text>
+      <text class="lens-s" x="350" y="358">Nobody owns</text><text class="lens-s" x="350" y="376">the fix</text>
+      <text class="lens-t" x="626" y="316">Plumbing</text><text class="lens-t" x="626" y="336">under the app</text>
+      <text class="lens-s" x="626" y="358">Pipelines the</text><text class="lens-s" x="626" y="376">app relies on</text>
+      <text class="lens-t" x="488" y="548">Definitions</text><text class="lens-t" x="488" y="568">drift</text>
+      <text class="lens-s" x="488" y="590">Report and app</text><text class="lens-s" x="488" y="608">disagree</text>
+      <text class="core-k" x="488" y="396">SHARED LAYER</text>
+      <text class="core-t" x="488" y="424">One</text>
+      <text class="core-t" x="488" y="448">foundation</text>
+    </g>
+  </svg>
+
+  <div class="rules">
+    <div class="rule"><span class="n">1</span><b>Keep meaning attached</b><span>A field means the same thing in the pipeline, the report and the app.</span></div>
+    <div class="rule"><span class="n">2</span><b>AI where it helps</b><span>Fixed, predictable rules wherever the workflow needs them.</span></div>
+    <div class="rule"><span class="n">3</span><b>Logic in your repo</b><span>The business knowledge you build stays in your own GitHub.</span></div>
+  </div>
+</div></body></html>

@@ -1,4 +1,6 @@
-# BH.ai Content — project rules
+> **Superseded (2026-10-01):** the binding rules now live in [PLAYBOOK.md](PLAYBOOK.md). Where this file conflicts with it, PLAYBOOK.md wins.
+
+# BH.ai Content, project rules
 
 > **Staged.** This is the intended `CLAUDE.md` for the project. The `protect-rules-files` hook
 > blocked writing it directly (ask-first tier, by design). Say the word and I'll promote it

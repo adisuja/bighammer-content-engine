@@ -4,3 +4,12 @@ __pycache__/
 *.pyc
 node_modules/
 out/
+
+# licensed brand fonts - do not redistribute
+brand/assets/fonts/axiforma-*
+
+# tool caches
+.serena/
+
+# real-person photos: private team kit only (PLAYBOOK section 9)
+brand/assets/photos/

@@ -1,0 +1,104 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../pipeline/brand.css"><link rel="stylesheet" href="../../pipeline/dark.css">
+<style>
+.wrap{position:relative;padding:44px 48px 0;height:1350px}
+.logo{top:48px;right:48px}
+.tagl{display:inline-block;padding:11px 22px;border-radius:999px;border:1px solid var(--edge);background:rgba(255,255,255,.05);font-family:var(--mono);font-weight:700;font-size:17px;letter-spacing:.16em}
+h1{text-align:center;margin-top:30px;font-size:58px!important}
+.steps{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:22px}
+.steps span{padding:12px 26px;border-radius:14px;border:1px solid var(--edge);background:rgba(255,255,255,.05);font-family:var(--display);font-weight:600;font-size:21px;color:var(--txt2)}
+.steps i{color:var(--txt3);font-style:normal;font-size:22px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:34px}
+.tool{border-radius:18px;border:1.5px solid var(--hue-edge);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));overflow:hidden}
+.band{display:flex;align-items:center;gap:12px;padding:12px 16px;background:linear-gradient(90deg,var(--hue-bg),transparent)}
+.band .n{padding:6px 12px;border-radius:8px;background:var(--hue);color:#0D0D14;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.04em}
+.band b{font-family:var(--display);font-weight:700;font-size:21px;color:var(--txt)}
+.body{padding:12px 16px 16px}
+.status{display:inline-block;padding:5px 10px;border-radius:6px;background:rgba(255,255,255,.07);font-family:var(--mono);font-weight:700;font-size:13.5px;letter-spacing:.08em;color:var(--hue)}
+.tl{position:relative;display:flex;justify-content:space-between;margin:16px 6px 14px;padding-top:4px}
+.tl::before{content:"";position:absolute;left:8px;right:8px;top:12px;height:2px;background:linear-gradient(90deg,var(--hue),rgba(255,255,255,.15))}
+.tl div{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;width:33%;text-align:center}
+.tl div::before{content:"";width:16px;height:16px;border-radius:50%;background:#0D0D14;border:3px solid var(--hue)}
+.tl div.now::before{background:var(--hue)}
+.tl b{font-family:var(--mono);font-weight:700;font-size:15px;color:var(--txt)}
+.tl span{font-size:14px;line-height:1.25;color:var(--txt2)}
+.rrp{display:grid;grid-template-columns:1fr 18px 1fr 18px 1fr;align-items:stretch;gap:0}
+.rrp div{border-radius:9px;padding:8px 9px;background:rgba(255,255,255,.05);font-size:14px;line-height:1.3;color:var(--txt2);text-align:center}
+.rrp div b{display:block;font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.1em;color:var(--hue);margin-bottom:3px}
+.rrp i{align-self:center;text-align:center;color:var(--txt3);font-style:normal}
+.line{margin-top:12px;text-align:center;font-size:15px;color:var(--txt)}
+.opts{display:grid;grid-template-columns:1.05fr 2fr;gap:18px;margin-top:22px}
+.repost{border:1.5px dashed rgba(255,255,255,.22);border-radius:18px;padding:18px 20px;display:flex;flex-direction:column;justify-content:center}
+.repost b{font-family:var(--display);font-weight:800;font-size:27px}
+.repost span{margin-top:6px;font-size:16px;color:var(--txt2);line-height:1.35}
+.three{border-radius:18px;border:1.5px solid rgba(0,255,137,.35);background:rgba(0,255,137,.05);padding:14px 18px}
+.three .hd{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.14em;color:var(--c-green)}
+.three .row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}
+.three .row div{border-radius:12px;background:rgba(255,255,255,.05);padding:10px 12px;font-size:14px;line-height:1.3;color:var(--txt2)}
+.three .row div b{display:block;font-family:var(--alt);font-weight:700;font-size:16px;color:var(--txt);margin-bottom:3px}
+.src{margin-top:12px;font-size:13px;color:var(--txt3);text-align:center}
+.band{position:relative}
+.vic{margin-left:auto;width:40px;height:40px;color:var(--hue);opacity:.95}
+.vic svg{width:40px;height:40px;display:block}
+.take{margin-top:10px;font-style:italic;font-size:15px;color:var(--txt);text-align:center}
+h1{margin-top:22px!important}
+.grid{margin-top:26px!important;gap:16px!important}
+.opts{margin-top:16px!important}
+.repost{position:relative;overflow:hidden;flex-direction:row!important;align-items:center;gap:6px;padding:0 18px 0 0!important}
+.rp-ph{width:150px;height:150px;flex:none;align-self:flex-end;background:url(../../brand/assets/photos/srinath-ceo.png) center bottom/cover no-repeat;filter:grayscale(1) contrast(1.05)}
+.rp-tx b{display:block;font-family:var(--display);font-weight:800;font-size:27px}
+.rp-tx span{display:block;margin-top:6px;font-size:16px;color:var(--txt2);line-height:1.35}
+h1{margin-top:86px!important;font-size:54px!important}.grid{margin-top:22px!important}
+</style></head>
+<body class="night" data-h="1350"><div class="wrap">
+  <div class="logo"><img src="../../brand/assets/bighammer-logo.svg"></div>
+  <h1>4 legacy ETL tools <span class="lite">changed hands.</span><br><span style="color:var(--c-green)">Is one running your pipelines?</span></h1>
+  <div class="steps"><span>CHANGED</span><i>→</i><span>MEANS</span><i>→</i><span>DECIDE</span></div>
+
+  <div class="grid">
+    <div class="tool h-s">
+      <div class="band"><span class="n">01</span><b>Informatica PowerCenter</b><span class="vic"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="14" width="16" height="20" rx="3"/><rect x="27" y="14" width="16" height="20" rx="3"/><path d="M21 21h6m-3-3 3 3-3 3"/><path d="M11 34v5h26v-5"/></svg></span></div>
+      <div class="body"><span class="status">NEW OWNER · SUPPORT WINDOW CLOSING</span>
+        <div class="tl"><div><b>MAY 2025</b><span>Salesforce deal announced</span></div><div><b>NOV 2025</b><span>Acquisition completed</span></div><div class="now"><b>MAR 2026</b><span>10.5 standard support ends (reported)</span></div></div>
+        <div class="rrp"><div><b>CHANGED</b>Now “Informatica from Salesforce”</div><i>→</i><div><b>MEANS</b>Paid extended support, or move to IDMC</div><i>→</i><div><b>DECIDE</b>Before the next renewal quote</div></div>
+        <p class="take">A new owner changes the roadmap. Ask for it in writing.</p>
+      </div>
+    </div>
+    <div class="tool h-m">
+      <div class="band"><span class="n">02</span><b>Talend Open Studio</b><span class="vic"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="10" width="32" height="26" rx="4"/><path d="M8 17h32"/><path d="M17 25l14 8m0-8-14 8"/></svg></span></div>
+      <div class="body"><span class="status">RETIRED · NO LONGER UPDATED</span>
+        <div class="tl"><div><b>MAY 2023</b><span>Qlik closes Talend deal</span></div><div class="now"><b>31 JAN 2024</b><span>Open Studio retired</span></div><div><b>TODAY</b><span>Jobs still running on it</span></div></div>
+        <div class="rrp"><div><b>CHANGED</b>Free edition no longer hosted</div><i>→</i><div><b>MEANS</b>No patches for the jobs you run</div><i>→</i><div><b>DECIDE</b>Commercial Talend, or move out</div></div>
+        <p class="take">If nobody patches it, you are the maintainer now.</p>
+      </div>
+    </div>
+    <div class="tool h-v">
+      <div class="band"><span class="n">03</span><b>StreamSets</b><span class="vic"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="36" height="36" rx="5"/><rect x="13" y="13" width="10" height="10" rx="2"/><rect x="25" y="13" width="10" height="10" rx="2" opacity=".45"/><rect x="13" y="25" width="10" height="10" rx="2" opacity=".45"/><rect x="25" y="25" width="10" height="10" rx="2" opacity=".45"/></svg></span></div>
+      <div class="body"><span class="status">NEW OWNER · NEW PACKAGING</span>
+        <div class="tl"><div><b>DEC 2023</b><span>IBM deal announced</span></div><div class="now"><b>JUL 2024</b><span>IBM completes acquisition</span></div><div><b>2026</b><span>Part of watsonx.data integration</span></div></div>
+        <div class="rrp"><div><b>CHANGED</b>Sold inside a wider IBM suite</div><i>→</i><div><b>MEANS</b>Your contract terms may change</div><i>→</i><div><b>DECIDE</b>Stay, repackage, or move</div></div>
+        <p class="take">Same product, new packaging. Read the new terms.</p>
+      </div>
+    </div>
+    <div class="tool h-a">
+      <div class="band"><span class="n">04</span><b>Cloudera CDH / HDP</b><span class="vic"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="26" r="15"/><path d="M24 17v9l6 4"/><path d="M18 6h12M24 6v5"/></svg></span></div>
+      <div class="body"><span class="status">END OF SUPPORT · UPGRADE PATH</span>
+        <div class="tl"><div><b>DEC 2021</b><span>HDP 3.1 support ends</span></div><div><b>MAR 2022</b><span>CDH 6.3 support ends</span></div><div class="now"><b>DEC 2026</b><span>On-prem 7.3.1 support ends</span></div></div>
+        <div class="rrp"><div><b>CHANGED</b>Old stacks are unsupported</div><i>→</i><div><b>MEANS</b>Upgrade projects compete with new work</div><i>→</i><div><b>DECIDE</b>Upgrade, or move once</div></div>
+        <p class="take">Plan the path, not just the next upgrade.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="opts">
+    <div class="repost"><div class="rp-ph"></div><div class="rp-tx"><b>Repost</b><span>if your 2027 plan still has no line for this.</span></div></div>
+    <div class="three"><div class="hd">YOUR 3 OPTIONS, FOR ANY OF THEM</div>
+      <div class="row">
+        <div><b>Stay and pay</b>Extended support buys time, not a plan.</div>
+        <div><b>Vendor's cloud</b>Same vendor, new platform, new contract.</div>
+        <div><b>Own the logic</b>Convert pipelines to open code in your repo.</div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Sources: Salesforce (18 Nov 2025), Qlik, IBM (1 Jul 2024), Cloudera support lifecycle. PowerCenter 10.5 date per Informatica lifecycle guide, reported.</div>
+</div></body></html>
