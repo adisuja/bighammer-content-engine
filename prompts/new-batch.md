@@ -1,5 +1,5 @@
-Paste everything inside the fence below into a new Claude Code session opened in the
-`bighammer-content-engine` repo folder. Fill in the INPUTS block first. Blank fields use the defaults.
+Paste everything inside the fence below into a new Claude Code session (any folder: step 0 clones the
+repo if it is not there). Fill in the INPUTS block first. Blank fields use the defaults.
 
 ```text
 You are building the next batch of BigHammer.ai LinkedIn content, end to end, at world-class quality,
@@ -24,7 +24,23 @@ FORMAT_WISHES:       (optional: e.g. "more carousels", "2 polls", "one video-sty
 PROFILE_CHANGES:     (optional: add/remove a profile, change a time zone, change a headline)
 ================================================================================
 
+## Where everything lives (all of it is in the repo unless marked PRIVATE or ACCESS)
+- Engine repo (rules, corpus, pipeline, all batches): https://github.com/adisuja/bighammer-content-engine
+- Review site (every batch, one URL): https://adisuja.github.io/bighammer-content-studio/
+  published from https://github.com/adisuja/bighammer-content-studio (ACCESS: push rights needed to deploy)
+- Binding rules + definition of done: PLAYBOOK.md. Copy templates: corpus/prompt-templates.md.
+  Voice: corpus/voice.md. No-duplication gate: corpus/used-content-registry.md. Facts: corpus/facts.md
+  + corpus/research/. Brand: brand/brand-guidelines.md. All posts of all batches: queue/posts.json.
+- Creator sample library: pipeline/taxonomy.py (pulls the public "LinkedIn Creator Taxonomy" sheet itself).
+- Shared review feedback store: Google Sheet + Apps Script (URL in queue/posts.json sync_url; no login).
+- PRIVATE team kit, not in git (ask the owner): .private/avatars/ (Richard + Terry poses),
+  .private/refs/, .private/kie.env (kie.ai key), brand/assets/photos/ (Srinath), brand/assets/fonts/axiforma-*.
+
 ## 0. Boot and resume (always first)
+0. Get the repo: if the current folder is not a checkout of adisuja/bighammer-content-engine, run
+   `gh repo clone adisuja/bighammer-content-engine` (or git clone the URL above) and work inside it.
+   `git pull`. If PLAYBOOK.md is missing on main, `git checkout batch-2-engine-playbook` (not merged yet).
+   Unzip the private team kit into the repo root if it is not already there.
 1. Read PLAYBOOK.md in full. It holds the binding rules (content, design, cadence, review site, tools,
    definition of done). Then read, in this order: corpus/voice.md, corpus/used-content-registry.md,
    corpus/facts.md, the newest corpus/research/*-verified-facts.md, brand/brand-guidelines.md,
@@ -81,7 +97,7 @@ PROFILE_CHANGES:     (optional: add/remove a profile, change a time zone, change
 - Put the post map (id, profile, date, idea, sample, format, CTA) in the BUILD_STATE file.
 
 ## 3. Copy
-- Write each post with the matching template from the owner's prompt doc (Experiential Story,
+- Write each post with the matching template from corpus/prompt-templates.md (Experiential Story,
   Carousel, Thought Leadership, Repurposed Slidepost, News Post, Case Study, Viral Quotes) or the
   sample's own structure if that's stronger. Record which in copy_basis.
 - Apply every rule in PLAYBOOK §2:

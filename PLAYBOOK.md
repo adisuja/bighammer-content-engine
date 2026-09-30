@@ -83,7 +83,7 @@ studio site under a collapsible "Batch N" dropdown in the sidebar, one link per 
 
 ## 4. Copy templates
 
-Use the matching template from the owner's prompt doc (Google Doc `1adrCJ_QqaiKJJPXAogVz45OJfES-EtoZa4Yg6DyYUhM`):
+Use the matching template from [corpus/prompt-templates.md](corpus/prompt-templates.md) (a copy of the owner's Google Doc `1adrCJ_QqaiKJJPXAogVz45OJfES-EtoZa4Yg6DyYUhM`, so no Doc access is needed):
 - Experiential Story
 - Carousel
 - Thought Leadership
@@ -101,7 +101,8 @@ PLAYBOOK.md                 this file
 prompts/new-batch.md        the weekly batch prompt
 queue/posts.json            SOURCE OF TRUTH: batches[] + posts[] for every batch
 queue/BUILD_STATE_B<N>.md   per-batch resume file (post map, status, decisions)
-corpus/voice.md             voice rules per profile          corpus/facts.md  sourced claims
+corpus/voice.md             voice rules per profile
+corpus/prompt-templates.md  the 7 copy templates (owner's prompt doc)          corpus/facts.md  sourced claims
 corpus/used-content-registry.md   no-duplication gate        corpus/research/  dated verified facts
 ideas/ideas-YYYY-MM-DD*.md  idea lists with hooks + sources
 brand/brand-guidelines.md   palette, type, logo, no-filler rule
@@ -157,6 +158,11 @@ Ask the owner for the private kit and unzip it into the repo root:
 `pipeline/taxonomy.py fetch` recreates `.private/taxonomy.json`.
 
 Setup: `pip install playwright pillow certifi && python3 -m playwright install chromium`, plus `gh auth login` (push access to both repos).
+
+Access checklist for a new teammate:
+- GitHub collaborator on `adisuja/bighammer-content-engine` (to push batch branches) AND `adisuja/bighammer-content-studio` (to deploy the review site).
+- The private kit.
+- Nothing else: the taxonomy sheet and the review store need no login.
 
 ## 10. Definition of done for a batch
 
