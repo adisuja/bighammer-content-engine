@@ -37,7 +37,16 @@ def media_for(post: dict) -> dict:
         out = os.path.join(ROOT, "assets", src, "out")
         pngs = sorted(glob.glob(os.path.join(out, "slide-*.png"))) or sorted(glob.glob(os.path.join(out, "image.png")))
         if not pngs:
-            return {"type": "pending"}
+            # fresh clone: renders (assets/*/out) are git-ignored, but the published JPGs in studio/media are
+            # committed, so keep serving those instead of blanking a live post
+            kept = sorted(glob.glob(os.path.join(STUDIO, "media", src, "p*.jpg"))) or sorted(glob.glob(os.path.join(STUDIO, "media", src, "image.jpg")))
+            if not kept:
+                return {"type": "pending"}
+            m["files"] = [f"media/{src}/{os.path.basename(k)}?v={V}" for k in kept]
+            if m["type"] == "image":
+                im = Image.open(kept[0])
+                m["tall"] = im.height / im.width > 1.26
+            return m
         dst = os.path.join(STUDIO, "media", src)
         os.makedirs(dst, exist_ok=True)
         files = []
