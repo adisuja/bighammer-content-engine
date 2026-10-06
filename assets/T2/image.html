@@ -1,0 +1,56 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../pipeline/brand.css">
+<style>
+body{background:radial-gradient(90% 50% at 50% 0%,rgba(86,0,239,.22),transparent 65%),#101016;color:#F4F2FF}
+body::before{content:"";position:absolute;inset:0;background:url(../../pipeline/speckle-lav.svg) 0 0/1080px 1350px no-repeat;opacity:.3}
+.wrap{position:relative;height:1350px;padding:44px 48px 0}
+.logo{top:48px;right:48px}
+.id{display:flex;align-items:center;gap:14px;font-family:var(--alt);font-weight:700;font-size:24px}
+.id i{width:52px;height:52px;border-radius:50%;background:url(../../.private/avatars/terry/face.jpg) center/cover}
+h1{margin-top:38px;text-align:center;font-family:var(--display);font-weight:800;font-size:56px;line-height:1.08;letter-spacing:-.02em;text-transform:uppercase}
+h1 span{background:#5600EF;padding:0 12px;border-radius:8px}
+.sub{margin-top:16px;text-align:center;font-size:25px;color:#C9C8D6}
+.sub b{color:#fff}
+.bars{margin-top:44px}
+.lbl{display:flex;justify-content:space-between;font-family:var(--mono);font-weight:700;font-size:19px;letter-spacing:.1em;margin:0 4px 10px}
+.bar{position:relative;height:88px;border-radius:44px;background:#1E1E28;border:1.5px solid rgba(255,255,255,.12);overflow:hidden;display:flex}
+.bar .u{height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:30px}
+.bar .i{flex:1;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:20px;letter-spacing:.08em;color:#9a9aae;
+  background:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 10px,transparent 10px 20px)}
+.bill{margin:12px 4px 30px;display:flex;justify-content:space-between;font-size:20px;color:#9a9aae}
+.bill b{color:#FF4FA3;font-family:var(--mono)}
+.legs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:6px}
+.leg{border-radius:18px;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);border-top:4px solid var(--c);padding:20px 20px 18px}
+.leg .k{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-weight:700;font-size:15px;letter-spacing:.1em;color:#9a9aae}
+.leg .k b{font-family:var(--display);font-size:34px;letter-spacing:-.01em;color:var(--c)}
+.leg h3{margin-top:12px;font-family:var(--display);font-weight:800;font-size:28px;color:var(--c);text-transform:uppercase}
+.leg p{margin-top:10px;font-size:20px;line-height:1.38;color:#D9D8E6}
+.leg .ex{margin-top:14px;border-radius:12px;border-left:3px solid var(--c);background:rgba(255,255,255,.05);padding:12px 14px;font-size:19px;line-height:1.35;font-style:italic;color:#E6E4F0}
+.ft{position:absolute;left:48px;right:48px;bottom:86px;text-align:center}
+.ft .a{font-size:26px;color:#B9B8C8}
+.ft .b{margin-top:8px;font-family:var(--display);font-weight:800;font-size:36px}
+.ft .b em{font-style:normal;color:#00FF89}
+</style></head>
+<body data-h="1350"><div class="wrap">
+  <div class="logo"><img src="../../brand/assets/bighammer-logo.svg"></div>
+  <div class="id"><i></i>Terry Dhariwal</div>
+  <h1>15% busy. <span>100% billed.</span></h1>
+  <p class="sub">Classic Databricks compute is billed on <b>nodes × hours</b>, not on how busy the nodes are.</p>
+
+  <div class="bars">
+    <div class="lbl"><span style="color:#FF4FA3">CLUSTER A · MOSTLY IDLE</span><span style="color:#9a9aae">SAME SIZE · SAME HOURS</span></div>
+    <div class="bar"><div class="u" style="width:15%;background:#FE0079">15%</div><div class="i">IDLE, STILL BILLED</div></div>
+    <div class="bill"><span>80 node-hours billed</span><b>8 nodes × 10 hours (example)</b></div>
+    <div class="lbl"><span style="color:#00FF89">CLUSTER B · MOSTLY BUSY</span></div>
+    <div class="bar"><div class="u" style="width:90%;background:#00C46E;color:#0D0D14">90% doing real work</div><div class="i"></div></div>
+    <div class="bill"><span>80 node-hours billed</span><b style="color:#00FF89">8 nodes × 10 hours (example)</b></div>
+  </div>
+
+  <div class="legs">
+    <div class="leg" style="--c:#FF4FA3"><div class="k">AVG · P95 CPU <b>&lt;20% · &lt;40%</b></div><h3>Oversized</h3><p>Never gets busy, even at its peak. Needs fewer or smaller nodes.</p><div class="ex">Fix: right-size from real utilisation, not last year's guess.</div></div>
+    <div class="leg" style="--c:#BA99FF"><div class="k">AVG · P95 CPU <b>&lt;20% · &gt;80%</b></div><h3>Spiky</h3><p>Quiet most of the run, then briefly flat out. Needs a real autoscale range.</p><div class="ex">Fix: let autoscaling breathe. Min and max shouldn't match.</div></div>
+    <div class="leg" style="--c:#00FF89"><div class="k">AVG CPU <b>60%+</b></div><h3>Busy</h3><p>Working most of the time. Check memory before you shrink anything: memory-bound jobs can look quiet on CPU.</p><div class="ex">Fix: none. Spend the effort elsewhere.</div></div>
+  </div>
+
+  <div class="ft"><div class="a">CPU <b style="color:#fff">and memory</b> are in <b style="color:#fff">system.compute.node_timeline</b>, kept 90 days by default.</div><div class="b">Check it <em>before it expires.</em></div></div>
+</div></body></html>

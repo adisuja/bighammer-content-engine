@@ -1,0 +1,77 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../pipeline/brand.css">
+<style>
+body{background:radial-gradient(90% 60% at 0% 100%,rgba(0,255,137,.28),transparent 60%),radial-gradient(80% 60% at 100% 0%,rgba(186,153,255,.45),transparent 60%),#F6F4FC}
+.wrap{position:relative;height:1350px;padding:40px 44px 0}
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:20px;border-radius:14px;background:#5600EF;padding:22px 30px}
+.hdr h1{font-family:var(--display);font-weight:800;font-size:48px;line-height:1.02;letter-spacing:-.02em;color:#fff}
+.hdr img{height:36px}
+.sub{display:flex;align-items:center;justify-content:space-between;margin:14px 4px 0;padding-bottom:14px;border-bottom:1.5px solid #141414;font-size:20px;color:#141414}
+.sub .who{display:flex;align-items:center;gap:10px;font-family:var(--alt);font-weight:700;font-size:19px}
+.sub .who i{width:40px;height:40px;border-radius:50%;background:url(../../.private/avatars/richard/face.jpg) center/cover}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px;align-items:start}
+.col{display:flex;flex-direction:column;gap:16px}
+.sec{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 12px 30px -22px rgba(61,0,173,.5)}
+.sec h3{background:#141414;color:#fff;font-family:var(--display);font-weight:700;font-size:25px;padding:13px 20px}
+.sec h3 span{color:#00FF89}
+.sec ul{list-style:none;padding:12px 18px 14px;margin:0}
+.sec li{display:flex;gap:12px;align-items:flex-start;font-size:17px;line-height:1.32;color:#141414;padding:6px 0}
+.sec li::before{content:"";flex:none;width:20px;height:20px;margin-top:1px;border:2.5px solid #141414;border-radius:5px}
+.sec li small{display:block;font-size:15px;color:#5a5a66;margin-top:2px}
+.code{margin:4px 18px 14px 50px;border-radius:9px;background:#141414;color:#00FF89;font-family:var(--mono);font-size:15px;padding:10px 12px;line-height:1.4}
+.gut{position:absolute;left:44px;right:44px;bottom:40px;border-radius:16px;background:#141414;color:#fff;padding:18px 26px 20px}
+.gut h4{font-family:var(--display);font-weight:800;font-size:25px}
+.gut .g{display:grid;grid-template-columns:1fr 1fr;gap:8px 30px;margin-top:12px}
+.gut .g div{display:flex;gap:12px;align-items:center;font-size:17px;color:#E6E4F0}
+.gut .g div::before{content:"";width:10px;height:10px;border-radius:50%;background:#00FF89;flex:none}
+.sec h3{font-size:29px!important;padding:15px 22px!important}
+.sec ul{padding:14px 20px 16px!important}
+.sec li{font-size:21px!important;padding:7px 0!important;gap:14px!important}
+.sec li::before{width:23px!important;height:23px!important;margin-top:2px!important}
+.sec li small{font-size:17px!important}
+.code{font-size:18px!important;margin:4px 20px 16px 57px!important}
+.cols{gap:18px!important;margin-top:20px!important}.col{gap:18px!important}
+.gut .g div{font-size:19px!important}
+.gs{margin-top:12px;font-size:15px;color:#9a9aae}
+</style></head>
+<body data-h="1350"><div class="wrap">
+  <div class="hdr"><h1>Price all four costs<br>before you move a job</h1><img src="../../brand/assets/bighammer-logo.svg"></div>
+  <div class="sub"><span>Most migration business cases only price the first one.</span><span class="who"><i></i>Richard Lawrence</span></div>
+
+  <div class="cols">
+    <div class="col">
+      <div class="sec"><h3><span>1.</span> Target compute</h3><ul>
+        <li><div>Size instances from real CPU data<small>p95 utilisation, not last year's cluster size</small></div></li>
+        <li><div>Spot or preemptible nodes where a retry is cheap</div></li>
+        <li><div>Storage, and egress if data crosses clouds</div></li>
+        <li><div>Committed use discounts you'd actually hit</div></li>
+      </ul></div>
+      <div class="sec"><h3><span>3.</span> Migration effort</h3><ul>
+        <li><div>Code conversion<small>dbutils calls, the dlt module, three-part table names</small></div></li>
+        <li><div>Orchestration rewired: schedules, retries, alerts</div></li>
+        <li><div>Access, tags and governance rebuilt on the target</div></li>
+        <li><div>Testing time per job, not per project</div></li>
+      </ul></div>
+    </div>
+    <div class="col">
+      <div class="sec"><h3><span>2.</span> Platform fee</h3><ul>
+        <li><div>Dataproc: $0.010 per vCPU hour<small>on top of the Compute Engine bill</small></div></li>
+        <li><div>EMR: a per-instance uplift<small>e.g. $0.048 an hour on m5.xlarge, us-east-1</small></div></li>
+        <li><div>Serverless priced per unit instead<small>Dataproc Serverless per DCU hour; EMR Serverless per vCPU and GB hour</small></div></li>
+      </ul><div class="code">fee = vCPUs × hours × rate</div></div>
+      <div class="sec"><h3><span>4.</span> The dual-run period</h3><ul>
+        <li><div>Both platforms billed while you prove parity</div></li>
+        <li><div>5 checks per job<small>counts, schema, nulls, aggregates, row-level</small></div></li>
+        <li><div>Cut over in waves, lowest risk first</div></li>
+        <li><div>Budget weeks, not days</div></li>
+        <li><div>Decommission the old job on a date<small>or you pay for both indefinitely</small></div></li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="gut"><h4>The 60-second check before you sign the business case</h4><div class="g">
+    <div>Every job has a 90-day cost baseline</div><div>Fees counted on both sides</div>
+    <div>Dual-run weeks are in the budget</div><div>Savings split: measured vs estimated</div>
+    <div>Jobs that belong where they are, stay put</div><div>Start-up and wait time is priced in</div>
+  </div><p class="gs">Fees: Google Cloud and AWS list prices, US regions, Sep 2026</p></div>
+</div></body></html>

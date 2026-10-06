@@ -1,0 +1,288 @@
+/* app.js: BigHammer review studio (batches 2+). Renders every post inside an iPhone LinkedIn iOS feed
+   (via core.js + linkedin.js) with a review layer: Glenn / BigHammer team approvals and feedback,
+   persisted in localStorage AND a shared Google Sheet (read-back confirmed), plus share links. */
+(function () {
+  const C = window.CORE, esc = C.esc, S = window.STUDIO;
+  const HASH = location.hash; // captured before core.js boot strips it
+  const LI_I = () => window.LI.I;
+  window.RENDER = { screen: () => "", text: () => "" }; // core.js shell needs a renderer; we render ourselves
+
+  /* ---------- review state: an append-only event log ----------
+     Every approval and every feedback line is an event {id,t,post,kind,name,...}. Events live in
+     localStorage and, when S.sync_url is set, in a shared Google Sheet (Apps Script web app) so every
+     reviewer sees every other reviewer's feed. Share links carry the local log as a fallback. */
+  const KEY = "bh-review-events-v3", NAMEKEY = "bh-reviewer-name", SYNC = S.sync_url || "";
+  let EV = loadEv();
+  function loadEv() { try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch { return []; } }
+  function saveEv() { localStorage.setItem(KEY, JSON.stringify(EV)); tally(); }
+  const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  function merge(list) { const have = new Set(EV.map(e => e.id)); let n = 0; (list || []).forEach(e => { if (e && e.id && !have.has(e.id)) { EV.push(e); have.add(e.id); n++; } }); EV.sort((a, b) => a.t.localeCompare(b.t)); return n; }
+  /* Removal is append-only too: a "_retract" event names the id it hides. Deleting sheet rows never works,
+     because any browser still holding the event re-sends it (that is the durability guarantee). */
+  const RETRACT = "_retract";
+  const live = () => { const gone = new Set(EV.filter(e => e.post === RETRACT).map(e => e.text)); return EV.filter(e => e.post !== RETRACT && !gone.has(e.id)); };
+  const comments = (post) => live().filter(e => e.post === post && e.kind === "comment");
+  function appr(post, role) { const l = live().filter(e => e.post === post && e.kind === "approve" && e.role === role); return l.length ? l[l.length - 1] : null; }
+  const rv = (id) => { const g = appr(id, "glenn"), t = appr(id, "team"); return { glenn: !!(g && g.value), team: !!(t && t.value), g, t }; };
+  const fmtT = (t) => new Date(t).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+  /* Durability: an event counts as saved only once it has been READ BACK from the shared sheet.
+     Until then it is "pending": kept in localStorage, re-sent with backoff, sent again by beacon if the
+     tab closes, and the tab warns before closing. Any browser that still holds an event the sheet has
+     lost re-sends it, so the sheet heals itself. */
+  let syncState = SYNC ? "connecting" : "local", REMOTE = new Set(JSON.parse(localStorage.getItem("bh-review-remote") || "[]")), retryT = null, backoff = 2000;
+  const pending = () => SYNC ? EV.filter(e => !REMOTE.has(e.id)) : [];
+  const saved = (e) => !SYNC || REMOTE.has(e.id);
+  const sent = {};
+  function push(e) {
+    if (!SYNC) return;
+    sent[e.id] = Date.now();
+    fetch(SYNC, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(e) })
+      .catch(() => { syncState = "offline"; syncBadge(); });
+  }
+  function schedule(ms) { clearTimeout(retryT); retryT = setTimeout(pull, ms); }
+  async function pull() {
+    if (!SYNC) return;
+    try {
+      const r = await fetch(SYNC + (SYNC.includes("?") ? "&" : "?") + "t=" + Date.now()); const remote = await r.json();
+      const was = pending().map(e => e.id).join();
+      REMOTE = new Set(remote.map(x => x.id)); localStorage.setItem("bh-review-remote", JSON.stringify([...REMOTE]));
+      const n = merge(remote); saveEv(); syncState = "live";
+      pending().forEach(e => { if (!sent[e.id] || Date.now() - sent[e.id] > 4000) push(e); }); // retry anything not yet in the sheet
+      if (n || was !== pending().map(e => e.id).join()) refreshReviews(); if (n) C.toast(n + " new review item" + (n === 1 ? "" : "s"));
+    } catch { syncState = "offline"; }
+    syncBadge();
+    if (pending().length) { schedule(backoff); backoff = Math.min(backoff * 1.6, 30000); } else { backoff = 2000; schedule(45000); }
+  }
+  function syncBadge() {
+    const el = document.getElementById("sync"); if (!el) return; const k = pending().length;
+    const m = !SYNC ? ["Saved in this browser only", "warn"] : syncState === "offline" ? [`Offline · ${k} waiting, retrying`, "warn"]
+      : syncState === "connecting" ? ["Connecting…", ""] : k ? [`Saving ${k}…`, "warn"] : ["✓ All saved to shared sheet", "ok"];
+    el.textContent = m[0]; el.className = "syncb " + m[1];
+  }
+  function add(e) { e.id = uid(); e.t = new Date().toISOString(); EV.push(e); saveEv(); push(e); syncBadge(); backoff = 2000; schedule(1500); return e; }
+  window.addEventListener("online", () => { backoff = 2000; pull(); });
+  window.addEventListener("pagehide", () => { pending().forEach(e => { try { navigator.sendBeacon(SYNC, new Blob([JSON.stringify(e)], { type: "text/plain;charset=utf-8" })); } catch {} }); });
+  window.addEventListener("beforeunload", (ev) => { if (pending().length || document.querySelector("[data-fb]:not(:placeholder-shown)")) { ev.preventDefault(); ev.returnValue = ""; } });
+  /* unsent drafts survive reloads, crashes and restarts */
+  const DK = "bh-review-drafts", drafts = JSON.parse(localStorage.getItem(DK) || "{}");
+  const saveDraft = (post, v) => { if (v) drafts[post] = v; else delete drafts[post]; localStorage.setItem(DK, JSON.stringify(drafts)); };
+  document.addEventListener("input", (e) => { if (e.target.matches("[data-fb]")) saveDraft(e.target.closest(".pcard").dataset.id, e.target.value); if (e.target.matches("[data-name]")) localStorage.setItem(NAMEKEY, e.target.value.trim()); });
+  const mark = (e) => saved(e) ? `<em class="sv ok" title="Confirmed in the shared Google Sheet">✓ Saved</em>` : `<em class="sv wait" title="Stored in this browser, being sent to the shared sheet">Saving…</em>`;
+  const enc = (o) => btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const dec = (s) => JSON.parse(decodeURIComponent(escape(atob(s.replace(/-/g, "+").replace(/_/g, "/")))));
+
+  /* ---------- helpers ---------- */
+  const prof = (id) => S.profiles.find(p => p.id === id);
+  const DOW = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  function when(p) {
+    const d = new Date(p.date + "T12:00:00Z");
+    const tz = prof(p.profile).tz === "ET" ? "ET (New York)" : "UK time";
+    return { day: `${DOW[d.getUTCDay()]} ${d.getUTCDate()} ${MON[d.getUTCMonth()]} 2026`, time: `${p.time} ${tz}` };
+  }
+  const avatar = (pr, size) => `<span class="av${pr.kind === "company" ? " sq" : ""}" style="width:${size}px;height:${size}px;border-radius:${pr.kind === "company" ? "6px" : "50%"};background:#ccc">${pr.avatar_ok ? `<img src="${esc(pr.avatar)}" alt="">` : `<b style="color:#fff;font-size:${Math.round(size * .4)}px">${esc(pr.name[0])}</b>`}</span>`;
+
+  /* ---------- LinkedIn iOS post ---------- */
+  function mediaHtml(p) {
+    const m = p.media || {};
+    if (m.type === "image") {
+      return `<div class="li-imgpost${m.tall ? " tall" : ""}"><img loading="lazy" src="${esc(m.files[0])}" alt="${esc(p.id)}" data-lb="${esc(m.files[0])}" data-lb-caption="${esc(p.id)} · ${esc(p.idea)}"></div>`;
+    }
+    if (m.type === "carousel") {
+      const g = "car-" + p.key, n = m.files.length;
+      const slides = m.files.map((f, i) => `<div class="li-slide"><img loading="lazy" src="${esc(f)}" alt="${esc(p.id)} page ${i + 1}" data-lb="${esc(f)}" data-lb-group="${g}" data-lb-caption="${esc(m.title || p.id)} · page ${i + 1} of ${n}"></div>`).join("");
+      return `<div class="li-doc"><div class="li-doc-head"><span class="li-doc-title">${esc(m.title || p.idea)}</span><span class="li-doc-pages">${n} pages</span></div>
+        <div class="li-doc-view"><div class="li-slides" data-pages="${n}">${slides}</div><span class="li-pg">1 / ${n}</span><span class="li-exp" title="View full screen">${LI_I().expand}</span><button class="li-arr prev" data-dir="-1" title="Previous slide">‹</button><button class="li-arr next" data-dir="1" title="Next slide">›</button></div></div>`;
+    }
+    if (m.type === "poll") {
+      return `<div class="li-poll"><div class="li-poll-q">${esc(m.question)}</div><div class="li-poll-s">The author can see how you vote. <span style="color:#0a66c2;font-weight:600">Learn more</span></div>${m.options.map(o => `<button class="li-poll-o">${esc(o)}</button>`).join("")}<div class="li-poll-f">0 votes · 1w left</div></div>`;
+    }
+    if (m.type === "pending") return `<div class="wipbox">Media in production</div>`;
+    return "";
+  }
+  function postText(p) {
+    const html = C.rich(p.text, "li-link").replace(/(^|\s)(#[A-Za-z0-9_]+)/g, '$1<span class="li-tag">$2</span>').replace(/\n/g, "<br>");
+    return `<div class="li-text clamp">${html}<span class="li-more" title="Show the full post">…more</span></div>`;
+  }
+  function commentHtml(p, pr) {
+    if (!p.first_comment) return "";
+    const txt = C.rich(p.first_comment, "li-link").replace(/\n/g, "<br>");
+    return `<div class="li-cmts"><div class="li-cm-sort">Most relevant ▾</div><div class="li-cm">${avatar(pr, 32)}<div class="li-cm-b"><div class="li-cm-bubble"><div class="li-cm-n">${esc(pr.name)} <span class="li-auth">Author</span></div><div class="li-cm-h">${esc(pr.headline)}</div><div class="li-cm-t">${txt}</div></div><div class="li-cm-a">Like · Reply</div></div></div></div>`;
+  }
+  function screen(p) {
+    const pr = prof(p.profile), I = LI_I(), isCo = pr.kind === "company";
+    const top = `<div class="li-top">${avatar(prof("srinath"), 32)}<div class="li-search">${I.search}<span>Search</span></div><span class="li-ic">${I.msg}</span></div>`;
+    const tabs = `<div class="li-tabs"><div class="li-tab on">${I.home}<span>Home</span></div><div class="li-tab">${I.net}<span>My Network</span></div><div class="li-tab">${I.post}<span>Post</span></div><div class="li-tab">${I.bell}<span>Notifications</span></div><div class="li-tab">${I.jobs}<span>Jobs</span></div></div>`;
+    const post = `<article class="li-post">
+      <div class="li-head">${avatar(pr, 48)}<div class="li-who"><div class="li-name">${esc(pr.name)}${isCo ? "" : ' <span class="li-deg">· 1st</span>'}</div><div class="li-sub">${esc(isCo ? pr.followers_line || pr.headline : pr.headline)}</div><div class="li-sub">Now · ${I.globe}</div></div><span class="li-ic">${I.more}</span><span class="li-ic">${I.x}</span></div>
+      ${postText(p)}${mediaHtml(p)}
+      <div class="li-actions"><span>${I.like}Like</span><span>${I.comment}Comment</span><span>${I.repost}Repost</span><span>${I.send}Send</span></div>
+      ${commentHtml(p, pr)}
+    </article>`;
+    return `${C.statusBar()}${top}<div class="scroll li-feed">${post}</div>${tabs}${C.home()}`;
+  }
+
+  /* ---------- card = header + phone + review ---------- */
+  function card(p) {
+    const w = when(p), r = rv(p.key);
+    const fmt = `<span class="badge fmt">${esc(p.media && p.media.type === "carousel" ? "Carousel" : p.media && p.media.type === "poll" ? "Poll" : p.media && p.media.type === "image" ? "Image" : "Post")}</span>`;
+    const cta = p.cta ? `<span class="badge cta">Webinar CTA</span>` : "";
+    const wip = p.status !== "ready" ? `<span class="badge wip">In production</span>` : "";
+    const smp = p.sample || {};
+    return `<article class="pcard card" id="${esc(p.key)}" data-id="${esc(p.key)}">
+      <header class="chead"><div class="crow"><span class="pid">${esc(p.id)}</span><span class="when">${esc(w.day)} <span>· ${esc(w.time)}</span></span></div>
+        <div class="crow">${fmt}${cta}${wip}</div><div class="cidea">${esc(p.idea)}</div></header>
+      ${C.phone(screen(p), "linkedin")}
+      <section class="rev" data-rev="${esc(p.key)}">${revHtml(p.key)}</section>
+      ${dlHtml(p)}
+      <details class="info"><summary>Sample, template, first comment and sources</summary><dl>
+        <dt>Sample matched</dt><dd><b>${esc(smp.id || "")}</b> · ${esc(smp.creator || "")}${smp.url ? ` · <a href="${esc(smp.url)}" target="_blank" rel="noopener">view original post</a>` : ""}<br>${esc(smp.what || "")}${smp.thumb ? `<img class="sthumb" src="${esc(smp.thumb)}" data-lb="${esc(smp.thumb)}" data-lb-caption="Sample ${esc(smp.id || "")}">` : ""}</dd>
+        <dt>Copy template</dt><dd>${esc(p.copy_basis || "")}</dd>
+        <dt>First comment</dt><dd>${p.first_comment ? `<div class="fc">${esc(p.first_comment)}</div>` : "None (not a CTA post)"}</dd>
+        <dt>Sources</dt><dd>${(p.sources || []).map(esc).join("<br>")}</dd>
+        ${(p.flags || []).length ? `<dt>Needs confirmation</dt><dd style="color:#a15c00">${p.flags.map(esc).join("<br>")}</dd>` : ""}
+        ${(p.numbers_for_signoff || []).length ? `<dt>Numbers needing Varadha sign-off</dt><dd>${p.numbers_for_signoff.map(esc).join(" · ")}</dd>` : ""}
+      </dl></details>
+    </article>`;
+  }
+  /* Ready-to-post strip under the review box: the full-quality upload file (original PNG, or the carousel as a
+     lossless PDF, never the on-screen JPG previews) plus one-click copy of the post copy and first comment. */
+  const mb = (n) => n >= 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(n / 1024)) + " KB";
+  function dlHtml(p) {
+    const d = (p.media || {}).download;
+    const file = d ? `<a class="btn dlb" href="${esc(d.href)}" download="${esc(d.name)}">${d.ext === "pdf" ? `Download PDF · ${d.pages} slides` : "Download PNG"}</a>
+        <span class="dlm">${d.w} × ${d.h} px · full quality · ${mb(d.bytes)}</span>` : "";
+    const fc = p.first_comment ? `<button class="btn ghost" data-copyt="first_comment">Copy first comment</button>` : `<button class="btn ghost" disabled title="This post has no first comment">No first comment</button>`;
+    return `<section class="dl">${file ? `<div class="dlrow">${file}</div>` : ""}<div class="dlrow"><button class="btn ghost" data-copyt="text">Copy post copy</button>${fc}</div></section>`;
+  }
+  function copyLegacy(s) {
+    const ta = Object.assign(document.createElement("textarea"), { value: s }); ta.style.cssText = "position:fixed;top:0;opacity:0";
+    document.body.appendChild(ta); ta.select(); const ok = document.execCommand("copy"); ta.remove();
+    return ok ? Promise.resolve() : Promise.reject(new Error("copy blocked"));
+  }
+  const copyText = (s) => navigator.clipboard && window.isSecureContext ? navigator.clipboard.writeText(s).catch(() => copyLegacy(s)) : copyLegacy(s);
+
+  function revHtml(id) {
+    const r = rv(id), cs = comments(id), me = localStorage.getItem(NAMEKEY) || "";
+    const who = (x) => x ? `<small>${esc(x.name || "")}${x.name ? " · " : ""}${esc(fmtT(x.t))} ${mark(x)}</small>` : "";
+    return `<div class="appr">
+        <label class="ck${r.glenn ? " on" : ""}"><input type="checkbox" data-appr="glenn" ${r.glenn ? "checked" : ""}><span>Approved by Glenn${r.g ? who(r.g) : ""}</span></label>
+        <label class="ck${r.team ? " on" : ""}"><input type="checkbox" data-appr="team" ${r.team ? "checked" : ""}><span>Approved by BigHammer team${r.t ? who(r.t) : ""}</span></label>
+      </div>
+      <div class="feed">${cs.length ? cs.map(c => `<div class="fbi"><span class="fav">${esc((c.name || "?").trim().slice(0, 1).toUpperCase())}</span><div><div class="fbh"><b>${esc(c.name || "Reviewer")}</b><span>${esc(fmtT(c.t))} ${mark(c)}</span></div><div class="fbt">${esc(c.text).replace(/\n/g, "<br>")}</div></div></div>`).join("") : `<div class="fbe">No feedback yet.</div>`}</div>
+      <div class="fbin"><input data-name placeholder="Your name" value="${esc(me)}"><textarea data-fb placeholder="Add feedback on copy, design or timing...">${esc(drafts[id] || "")}</textarea><div class="fbrow"><span class="saved">${cs.length} ${cs.length === 1 ? "note" : "notes"}</span><button class="btn" data-addfb>Add feedback</button></div></div>`;
+  }
+  function refreshReviews() { const act = document.activeElement, host = act && act.closest && act.closest("[data-rev]"), sel = act && act.matches && (act.matches("[data-fb]") ? "[data-fb]" : act.matches("[data-name]") ? "[data-name]" : ""), pos = sel ? act.selectionStart : 0;
+    document.querySelectorAll("[data-rev]").forEach(el => { const ta = el.querySelector("[data-fb]"), draft = ta ? ta.value : ""; el.innerHTML = revHtml(el.dataset.rev); if (draft) el.querySelector("[data-fb]").value = draft; });
+    if (host && sel) { const f = document.querySelector(`[data-rev="${host.dataset.rev}"] ${sel}`); if (f) { f.focus(); try { f.setSelectionRange(pos, pos); } catch {} } }
+    nav(); tally(); }
+
+  /* ---------- page ---------- */
+  let filter = "all";
+  function visible(p) { const r = rv(p.key); if (filter === "approved") return r.glenn && r.team; if (filter === "todo") return !(r.glenn && r.team); return true; }
+  const batches = () => (S.batches && S.batches.length ? S.batches : [{ id: "2", title: "Batch 2" }]);
+  const postsOf = (bid, prid) => S.posts.filter(p => (p.batch || "2") === bid && p.profile === prid).sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+  /* One batch on screen at a time (batches grow to 50 posts; all at once would be hundreds of phones).
+     Default = newest batch; a #bN-profile-x deep link or a sidebar click switches batch. */
+  const hashB = (location.hash.match(/^#b(\w+)-profile-/) || [])[1];
+  let active = [hashB, localStorage.getItem("bh-active-batch")].find(b => b && batches().some(x => x.id === b)) || batches()[batches().length - 1].id;
+  const inActive = (p) => (p.batch || "2") === active;
+  function setActive(b) { if (b === active) return false; active = b; localStorage.setItem("bh-active-batch", b); render(); fit(); return true; }
+  function render() {
+    const main = document.getElementById("main");
+    main.innerHTML = batches().filter(bt => bt.id === active).map(bt => `<section class="batch" id="batch-${esc(bt.id)}">
+      <div class="bhead"><h1>${esc(bt.title)}</h1><p>${esc(bt.dates || "")} · ${S.posts.filter(p => (p.batch || "2") === bt.id).length} posts across ${S.profiles.length} profiles</p></div>
+      ${S.profiles.map((pr, i) => {
+        const posts = postsOf(bt.id, pr.id);
+        return `<section class="profile" id="b${esc(bt.id)}-profile-${esc(pr.id)}">
+        <div class="phead">${pr.avatar_ok ? `<img class="${pr.kind === "company" ? "sq" : ""}" src="${esc(pr.avatar)}" alt="">` : ""}<div><h2>${esc(pr.name)}</h2><p>${esc(pr.headline)} · ${posts.length} posts · 10:00 ${pr.tz === "ET" ? "ET" : "UK time"}</p></div><span class="order">${i + 1} of ${S.profiles.length}</span></div>
+        <div class="pgrid">${posts.length ? posts.map(card).join("") : `<div class="pnote">Posts for this profile are in production.</div>`}</div>
+      </section>`; }).join("")}
+    </section>`).join("");
+    applyFilter();
+    nav();
+    if (window.LI && window.LI.afterRender) window.LI.afterRender();
+    tally();
+  }
+  function applyFilter() { document.querySelectorAll(".pcard").forEach(el => { const p = S.posts.find(x => x.key === el.dataset.id); el.classList.toggle("hide", !visible(p)); }); }
+  const openB = JSON.parse(localStorage.getItem("bh-nav-open") || "{}");
+  function nav() {
+    document.getElementById("sidenav").innerHTML = batches().map((bt, bi) => {
+      const isOpen = openB[bt.id] !== undefined ? openB[bt.id] : bi === batches().length - 1;
+      return `<details class="bnav${bt.id === active ? " act" : ""}" data-b="${esc(bt.id)}" ${isOpen || bt.id === active ? "open" : ""}><summary>${esc(bt.title)}<small>${S.posts.filter(p => (p.batch || "2") === bt.id).length} posts</small></summary>` +
+        S.profiles.map(pr => {
+          const posts = postsOf(bt.id, pr.id), done = posts.filter(p => { const r = rv(p.key); return r.glenn && r.team; }).length;
+          return `<a href="#b${esc(bt.id)}-profile-${esc(pr.id)}" data-target="b${esc(bt.id)}-profile-${esc(pr.id)}"><span>${esc(pr.name)}</span><small class="cnt">${done}/${posts.length}</small></a>`;
+        }).join("") + `</details>`;
+    }).join("");
+    document.querySelectorAll(".bnav").forEach(d => d.addEventListener("toggle", () => { openB[d.dataset.b] = d.open; localStorage.setItem("bh-nav-open", JSON.stringify(openB)); }));
+    document.querySelectorAll(".bnav summary").forEach(sm => sm.addEventListener("click", () => { const b = sm.parentElement.dataset.b; if (b !== active) { openB[b] = false; setActive(b); window.scrollTo(0, 0); } }));
+  }
+  function tally() {
+    const L = S.posts.filter(inActive), n = L.length, g = L.filter(p => rv(p.key).glenn).length, t = L.filter(p => rv(p.key).team).length, b = L.filter(p => rv(p.key).glenn && rv(p.key).team).length;
+    const el = document.getElementById("tally"); if (el) el.innerHTML = `Glenn <b>${g}/${n}</b> · Team <b>${t}/${n}</b> · Both <b>${b}</b>`;
+  }
+
+  /* ---------- events ---------- */
+  const myName = (card) => { const v = (card.querySelector("[data-name]").value || "").trim(); if (v) localStorage.setItem(NAMEKEY, v); return v; };
+  document.addEventListener("change", (e) => {
+    const ap = e.target.closest("[data-appr]"); if (!ap) return;
+    const card = ap.closest(".pcard"), role = ap.dataset.appr;
+    const name = myName(card) || (role === "glenn" ? "Glenn" : "BigHammer team");
+    add({ post: card.dataset.id, kind: "approve", role, value: ap.checked, name });
+    refreshReviews(); C.toast(ap.checked ? "Approval stored, confirming…" : "Approval removed, confirming…");
+  });
+  document.addEventListener("click", (e) => {
+    const nl = e.target.closest("#sidenav a[data-target]"), nb = nl && (nl.dataset.target.match(/^b(\w+)-profile-/) || [])[1];
+    if (nb && setActive(nb)) { e.preventDefault(); e.stopPropagation(); requestAnimationFrame(() => document.getElementById(nl.dataset.target).scrollIntoView({ behavior: "smooth" })); return; }
+  }, true);
+  document.addEventListener("click", (e) => {
+    const sv = e.target.closest("[data-addfb]");
+    if (sv) {
+      const card = sv.closest(".pcard"), text = card.querySelector("[data-fb]").value.trim(), name = myName(card);
+      if (!name) { card.querySelector("[data-name]").focus(); C.toast("Add your name first"); return; }
+      if (!text) { card.querySelector("[data-fb]").focus(); return; }
+      add({ post: card.dataset.id, kind: "comment", name, text });
+      card.querySelector("[data-fb]").value = ""; saveDraft(card.dataset.id, ""); refreshReviews(); C.toast("Feedback stored, confirming with shared sheet…"); return;
+    }
+    const ct = e.target.closest("[data-copyt]");
+    if (ct) {
+      const p = S.posts.find(x => x.key === ct.closest(".pcard").dataset.id), what = ct.dataset.copyt === "text" ? "Post copy" : "First comment";
+      copyText(p[ct.dataset.copyt] || "").then(() => {
+        C.toast(what + " copied");
+        ct.dataset.label = ct.dataset.label || ct.textContent; ct.textContent = "✓ Copied"; ct.classList.add("done");
+        clearTimeout(ct._t); ct._t = setTimeout(() => { ct.textContent = ct.dataset.label; ct.classList.remove("done"); }, 1800);
+      }, () => C.toast("Copy blocked by the browser. Select the text in the post instead."));
+      return;
+    }
+    const f = e.target.closest("[data-filter]");
+    if (f) { f.parentElement.querySelectorAll("button").forEach(b => b.classList.toggle("on", b === f)); filter = f.dataset.filter; applyFilter(); return; }
+    const poll = e.target.closest(".li-poll-o"); if (poll) { poll.parentElement.querySelectorAll(".li-poll-o").forEach(b => b.classList.toggle("voted", b === poll)); return; }
+    if (e.target.id === "loadShared") { const n = merge(window.__shared.ev || []); saveEv(); (window.__shared.ev || []).forEach(push); hideBanner(); refreshReviews(); C.toast(n + " shared items loaded"); return; }
+    if (e.target.id === "ignoreShared") { hideBanner(); return; }
+  });
+  function hideBanner() { const b = document.getElementById("banner"); b.hidden = true; history.replaceState(null, "", location.pathname + location.search); }
+  function sharedBanner() {
+    const m = HASH.match(/#r=([\w-]+)/); if (!m) return;
+    try {
+      const sh = dec(m[1]); window.__shared = sh; const ev = sh.ev || [];
+      const a = ev.filter(x => x.kind === "approve").length, f = ev.filter(x => x.kind === "comment").length;
+      const b = document.getElementById("banner"); b.hidden = false;
+      b.innerHTML = `<span>This link carries a shared review from ${esc(fmtT(sh.at))}: <b>${a}</b> approvals and <b>${f}</b> feedback notes.</span><button class="btn" id="loadShared">Load into my view</button><button class="btn ghost" id="ignoreShared">Ignore</button>`;
+    } catch { /* bad hash */ }
+  }
+  /* 3 phones per row by default: scale phones to fit the available width */
+  let fit3 = true;
+  function fit() {
+    if (!fit3) return;
+    const main = document.getElementById("main"); if (!main) return;
+    const avail = main.clientWidth - 52, gap = 28;
+    const s = Math.max(0.5, Math.min(1, (avail - 2 * gap) / (3 * 417)));
+    document.documentElement.style.setProperty("--s", s.toFixed(3));
+  }
+  window.addEventListener("resize", fit);
+  document.addEventListener("click", (e) => {
+    if (e.target.closest('.seg button[data-set="scale"]')) { fit3 = false; document.getElementById("fit3").classList.remove("on"); }
+    if (e.target.id === "fit3") { fit3 = true; e.target.classList.add("on"); document.querySelectorAll('.seg button[data-set="scale"]').forEach(b => b.classList.remove("on")); fit(); }
+  });
+  document.addEventListener("DOMContentLoaded", () => { sharedBanner(); render(); fit(); syncBadge(); pull(); });
+})();
