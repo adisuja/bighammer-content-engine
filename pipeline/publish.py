@@ -43,7 +43,8 @@ def lossless_pdf(pngs: list[str], path: str) -> None:
         w, h = Image.open(p).size
         page = doc.new_page(width=w / 2, height=h / 2)  # 144 dpi: 1080x1350 px -> 540x675 pt
         page.insert_image(page.rect, filename=p)
-    doc.save(path, deflate=True, garbage=3)
+    doc.set_metadata({"title": os.path.basename(path), "producer": "BigHammer publish.py"})  # no dates: same input, same bytes
+    doc.save(path, deflate=True, garbage=3, no_new_id=True)
     doc.close()
 
 
