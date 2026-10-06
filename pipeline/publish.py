@@ -3,7 +3,9 @@
     python3 pipeline/publish.py            # rebuild studio/data.js + media, bump ?v=
 Copies assets/<media.src>/out/*.png -> studio/media/<media.src>/*.jpg (Batch 2 used bare IDs like "C1";
 batch 3 onwards MUST use batch-scoped folders like "b3/C1" so IDs never collide), writes studio/data.js, stamps a cache-busting
-version into index.html. Sample creatives are linked (original post URL), never re-hosted.
+version into index.html. The JPGs are on-screen previews only; every image/carousel post also gets a full-quality
+upload file (original PNG, or a lossless carousel PDF) behind the studio's Download button. A ready post without
+one fails the build. Sample creatives are linked (original post URL), never re-hosted.
 """
 from __future__ import annotations
 
@@ -11,6 +13,7 @@ import glob
 import json
 import os
 import re
+import shutil
 import sys
 import time
 
@@ -30,6 +33,52 @@ def sample_urls() -> dict:
         return {}
 
 
+def lossless_pdf(pngs: list[str], path: str) -> None:
+    """Carousel PDF for LinkedIn document posts: one page per slide, PNG pixels embedded Flate (lossless) at
+    full resolution. PIL's PDF writer re-encodes to JPEG, which softens type, so it is not used for uploads."""
+    import fitz  # PyMuPDF
+
+    doc = fitz.open()
+    for p in pngs:
+        w, h = Image.open(p).size
+        page = doc.new_page(width=w / 2, height=h / 2)  # 144 dpi: 1080x1350 px -> 540x675 pt
+        page.insert_image(page.rect, filename=p)
+    doc.save(path, deflate=True, garbage=3)
+    doc.close()
+
+
+def download_for(post: dict, m: dict, src: str, pngs: list[str]) -> dict | None:
+    """Full-quality upload file shown under the review box: the PNG byte-for-byte for images, a lossless PDF
+    for carousels. Written next to the preview JPGs; kept as-is on fresh clones where renders are absent."""
+    dst = os.path.join(STUDIO, "media", src)
+    ext = "pdf" if m["type"] == "carousel" else "png"
+    name = f"BigHammer-b{post.get('batch', '2')}-{post['id']}-{post['date']}-{post['profile']}.{ext}"
+    path = os.path.join(dst, name)
+    # only this post's own files: a media folder may one day be shared by two posts (e.g. a repost)
+    mine = [f for f in glob.glob(os.path.join(dst, f"BigHammer-b{post.get('batch', '2')}-{post['id']}-*.{ext}")) if f != path]
+    if pngs:
+        for old in mine:
+            os.remove(old)
+        if ext == "pdf":
+            lossless_pdf(pngs, path)
+        else:
+            shutil.copyfile(pngs[0], path)
+    elif not os.path.exists(path) and len(mine) == 1:
+        os.replace(mine[0], path)  # fresh clone after a date/profile change: keep the committed file, new name
+    if not os.path.exists(path):
+        return None
+    if ext == "pdf":
+        import fitz  # PyMuPDF
+        with fitz.open(path) as doc:  # read from the file itself so the button label can never drift from it
+            pages = doc.page_count
+            first = doc.extract_image(doc[0].get_images()[0][0])
+            w, h = first["width"], first["height"]
+    else:
+        pages, (w, h) = 1, Image.open(path).size
+    return {"href": f"media/{src}/{name}?v={V}", "name": name, "ext": ext, "bytes": os.path.getsize(path),
+            "pages": pages, "w": w, "h": h}
+
+
 def media_for(post: dict) -> dict:
     m = dict(post.get("media") or {})
     src = m.get("src")
@@ -46,6 +95,7 @@ def media_for(post: dict) -> dict:
             if m["type"] == "image":
                 im = Image.open(kept[0])
                 m["tall"] = im.height / im.width > 1.26
+            m["download"] = download_for(post, m, src, [])
             return m
         dst = os.path.join(STUDIO, "media", src)
         os.makedirs(dst, exist_ok=True)
@@ -58,6 +108,7 @@ def media_for(post: dict) -> dict:
             if m["type"] == "image":
                 m["tall"] = im.height / im.width > 1.26
         m["files"] = files
+        m["download"] = download_for(post, m, src, pngs)
     return m
 
 
@@ -84,8 +135,11 @@ def main() -> None:
     posts = []
     for p in q["posts"]:
         p = dict(p)
+        declared = dict(p.get("media") or {})  # media_for may downgrade it to "pending"
         p["media"] = media_for(p)
         p["key"] = f"b{p.get('batch', '2')}-{p['id']}"
+        if declared.get("type") in ("image", "carousel") and p.get("status") == "ready" and not p["media"].get("download"):
+            raise SystemExit(f"{p['key']}: no full-quality download (render assets/{declared.get('src')} first: pipeline/render.py)")
         if p.get("sample", {}).get("id") in urls:
             p["sample"]["url"] = urls[p["sample"]["id"]]
         posts.append(p)

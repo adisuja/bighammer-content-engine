@@ -112,7 +112,8 @@ assets/b<N>/<ID>/           Batch 3+ media (MUST be batch-scoped). image.html or
 pipeline/render.py          HTML -> PNG (2x, overflow check, curly quotes, dash guard, contact sheet)
 pipeline/taxonomy.py        fetch | unused | show: the sample library
 pipeline/avatars.py         create-once avatar library        pipeline/kie.py  kie.ai client
-pipeline/publish.py         posts.json + renders -> studio/ (data.js, media, cache-bust)
+pipeline/publish.py         posts.json + renders -> studio/ (data.js, media, cache-bust) + full-quality downloads
+                            (original PNG per image, lossless PDF per carousel); fails if a ready post has none
 pipeline/deploy.sh          publish + push studio/ to GitHub Pages
 pipeline/review-sync.gs     Apps Script behind the shared feedback store
 studio/                     the review site (LinkedIn iOS phones, approvals, feedback feed)
@@ -157,7 +158,7 @@ Ask the owner for the private kit and unzip it into the repo root:
 
 `pipeline/taxonomy.py fetch` recreates `.private/taxonomy.json`.
 
-Setup: `pip install playwright pillow certifi && python3 -m playwright install chromium`, plus `gh auth login` (push access to both repos).
+Setup: `pip install playwright pillow pymupdf certifi && python3 -m playwright install chromium`, plus `gh auth login` (push access to both repos).
 
 Access checklist for a new teammate:
 - GitHub collaborator on `adisuja/bighammer-content-engine` (to push batch branches) AND `adisuja/bighammer-content-studio` (to deploy the review site).
@@ -172,5 +173,5 @@ Access checklist for a new teammate:
 - [ ] Every claim sourced; `numbers_for_signoff` filled for Srinath posts; no registry duplicates
 - [ ] Every asset rendered with no overflow, passes the self-critique loop and a second-model critique
 - [ ] 0 em/en dashes, 0 filler labels, logo top right, correct name lines, cold-reader check passed
-- [ ] Deployed with `pipeline/deploy.sh`. On the live, cache-busted URL: the batch dropdown shows 4 profile links, N posts render, 0 broken images, sync badge "✓ All saved"
+- [ ] Deployed with `pipeline/deploy.sh`. On the live, cache-busted URL: the batch dropdown shows 4 profile links, N posts render, 0 broken images, sync badge "✓ All saved", and every card shows the strip under the feedback box: Download PNG (images) or Download PDF (carousels) at full 1080 × 1350, plus Copy post copy and Copy first comment
 - [ ] `corpus/used-content-registry.md` gains a "Batch N" section; `queue/BUILD_STATE_B<N>.md` complete; engine repo committed and pushed

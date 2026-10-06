@@ -57,8 +57,8 @@ def render(folder: str) -> list[str]:
             pngs.append(final)
         b.close()
     if len(pngs) > 1:
-        ims = [Image.open(x).convert("RGB") for x in pngs]
-        ims[0].save(os.path.join(out, "carousel.pdf"), save_all=True, append_images=ims[1:], resolution=144)
+        from publish import lossless_pdf
+        lossless_pdf(pngs, os.path.join(out, "carousel.pdf"))
     sheet(pngs, os.path.join(out, "_sheet.png"))
     return pngs
 
